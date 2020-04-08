@@ -1,0 +1,70 @@
+/* header and sidebar css------------------------------------------------------------------------------ */
+
+.skin-blue .main-header .navbar {background-color: #ffffff;}
+.skin-blue .main-header .logo {background-color: #ffffff;color: rgb(53, 50, 245); border-bottom: 0 solid transparent;}
+.skin-blue .main-header .logo:hover {background-color: #ffffff;}
+.skin-blue .main-header .navbar .sidebar-toggle {color: #030303;}
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {background-color: #3273ba;}
+.skin-blue .sidebar-menu>li>.treeview-menu {margin: 0 1px;background: #285380;}
+.skin-blue .sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a {color: #fff;background: #285380;border-left-color: #3c8dbc;}
+.main-header .navbar {margin-left: 0px;padding-bottom: 3px; padding-top: 3px;}
+.main-header .logo{width: auto;}
+
+@media (min-width: 768px)
+{.sidebar-mini.sidebar-collapse .main-header .logo {
+    width: auto;
+}}
+@media (min-width: 768px){
+    .sidebar-mini.sidebar-collapse .main-header .navbar {
+        margin-left: 0px; padding-bottom: 3px;    padding-top: 3px;
+}}
+
+
+
+
+/* dashboard css----------------------------------------------------------------------------------------- */
+.data-box{border-radius: 15px;}
+.data-box .icon{font-size: 60px;}
+/* .data-box .inner{ margin-left: 20%;} */
+.data-box p{font-size: 20px;}
+.data-box>.inner {padding:2px 35px;}
+.info-box .small-box-footer {
+    position: relative;
+    text-align: center;
+    padding: 3px 0;
+    color: #fff;
+    color: rgba(255,255,255,0.8);
+    display: block;
+    z-index: 10;
+    margin-top: 13px;
+    text-decoration: none;
+}
+
+.main-info-box .info-box-content .info-box-text {text-transform: capitalize;font-size: 16px;}
+.main-info-box .info-box-content .info-box-number {font-size: 25px;}
+.main-info-box .info-box-content {padding: 15px 30px;}
+#example1 tbody tr td:nth-child(8), #example1 thead tr th:nth-child(8),#example1 tbody tr td:nth-child(7), #example1 thead tr th:nth-child(7),#example1 tbody tr td:nth-child(3), #example1 thead tr th:nth-child(3), #example1 tbody tr td:first-child, #example1 thead tr th:first-child{text-align: center}
+#example2 tbody tr td, #example1 thead tr th{color: black;}
+#example2 tbody th{color:black;}
+.btn-new{padding: 6px 25px;}
+/* Select2 css----------------------------------------------------------------------- */  
+    
+
+.select2-results__option[aria-selected=true]:before {font-family:fontAwesome;content: "\f00c"; color: #030303;   border: 0;display: inline-block; padding-left: 1px;}
+.select2-container--default .select2-results__option[aria-selected=true] {background-color: #fff;}
+.select2-selection .select2-selection--multiple:after {content: ' ';}
+.select-icon  .select2-search--dropdown {display: none;}
+.select2-container--default .select2-results__option--highlighted[aria-selected] {background-color: #4c4c4c; color: white;}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #3273ba;
+    border: #3273ba;
+    padding: 1px 10px;
+    color: #fff;
+}
+.form-control{border-color: #6D6E71;}
+.select2-container--default .select2-selection--single, .select2-selection .select2-selection--single {border: 1px solid #6D6E71;}
+.select2-container--default.select2-container--focus .select2-selection--multiple {border-color: #6D6E71;}
+.select2-container--default .select2-selection--multiple{border: 1px solid #6D6E71;border-radius: 0;}
+.select2-search--inline .select2-search__field:focus {outline: none;border: none;}
+
+ 

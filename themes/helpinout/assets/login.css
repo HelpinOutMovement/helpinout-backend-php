@@ -1,0 +1,98 @@
+.login-page{ background-image: url("../../images/login-bg.jpg"); background-repeat: no-repeat; background-size: cover;height: 400px;}
+.login-box-body, .register-box-body{color: #000;border-radius: 1px 0px 15px 15px;padding: 14px 24px 20px;}
+.has-feedback .form-control {padding-left: 12px;border-radius: 50px;}
+.login-box-body .form-control-feedback, .register-box-body .form-control-feedback {color: #ffffff;background-color: #3c8dbc;border-radius: 0px 4px 4px 0px;}
+.form-control-feedback{right: 0;}
+.form-control-feedback{width: 39px;height: 39px;line-height: 39px;}
+.form-control{height: 35px;}
+.login-box-msg, .register-box-msg{font-size: 15px;}
+.login-logo a, .register-logo a {color: #fff;} 
+.login-btm{display: inline-flex;float: right;}
+.login-btm li{list-style: none;margin-right: 38px;}
+.login-btm li a{color: #fff;font-size: 14px;text-transform: uppercase;}
+.copyright.end{ color: #fff; font-size: 16px;}
+.form-bottom a{color: #ef1515;}
+.skin-blue .sidebar a{ color: #ffffff;}
+.sarvodaya-logo{text-align: center;color: #fff;font-size: 24px;font-weight: 600;margin-bottom: 0px;}
+.hcl-logo{text-align: center;margin-bottom: 10px;}
+.logo-right.shiksha-logo{margin-top: 10px;}
+.logo-right.shiksha-logos{margin-top: 5px; margin-right: 10px;}
+.welcome-team{font-size: 15px; margin-right:19px; vertical-align:bottom; margin-top: 16px;margin-bottom: 0px}
+.logo-right{margin-top: 5px;}
+.carousel-form{ position: absolute; top: 0; right: 0; left: 0; bottom: 0; margin: auto; }
+.login-btm li:last-child{ margin-right: 0px;}
+.login-box.forgot-form{margin: 12% auto;}
+.login-box.login-form{margin: 4.5% auto;}
+.main-header .login-header{margin-left: 0px;padding: 8px 0px;}
+.commentbox{background-color: #fff;padding: 20px 25px;opacity: 0.8;color: #000;border-radius: 14px;}
+.login-Main .slider-forgot img{width:100%;height: 594px;}
+
+.login-box, .register-box {width: 441px;}
+.btn.btn-flat{border-radius: 50px;background-color: #296dbf;}
+.checkbox.icheck{ margin-top: 0px;}
+.commentbox h4 {margin-top: 0px;text-align: center;text-transform: uppercase;font-weight: 600;color: #296dbf;text-decoration: underline;margin-bottom: 12px;font-size: 18px;}
+
+.iti-grading {text-align: center;margin-top: 5px;font-size: 25px;font-weight: 600;margin-bottom: 0;color: #1b6dd4;}
+.footer-right{ float: right;}
+.footer-right b{ color: #3a87e4;}
+.bottom-footer{padding: 10px 0px;}
+.login-title{border-radius: 15px 15px 0px 0px;padding: 7px 0px;background-color: #296dbf;text-align: center;margin-bottom: 0px;color: #fff;margin-top: 0;font-size: 19px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 767px)
+
+{
+.login-btm li{margin-right: 38px;}
+.login-btm li a{font-size: 11px;}
+.login-btm{float: none;}
+.copyright.end{font-size: 14px;text-align: center;}
+.login-box, .register-box {width: 332px;}
+.brand img{text-align: center;width: 100%;}
+.main-header .navbar-custom-menu {margin-bottom: 20px;}
+
+}
+@media screen and (min-width: 320px) {
+
+
+}
