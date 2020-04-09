@@ -10,7 +10,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-$base_url = 'http://3.7.52.176:8080';
+//$base_url = 'http://3.7.52.176:8080';
 $url = $base_url . '/api/v1/user/register';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -21,6 +21,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $arr['date_time'] = $_POST['date_time']; //"2020-04-04T13:39:27.397-05:30";
     $data_string = json_encode($arr);
 
+    
+    $data_string = '{
+    "app_id": "",
+    "imei_no": "d31f70e57896db2b",
+    "app_version": "1.0",
+    "date_time": "2020-04-09T11:03:08.193+05:30",
+    "data": {
+        "imei_no": "d31f70e57896db2b",
+        "os_type": "Android",
+        "manufacturer_name": "Xiaomi Redmi Note 8 Pro",
+        "os_version": "28",
+        "firebase_token": "e7kq2oVDT_u35_DVtCEksN:APA91bEFLHRbefhBFFV0BdqlxeHTvpTvt2n7pOLOFrCaU0YwHYeY6Sq3UZkpuXMsKZnzDZTSHHOE6dGlrWKVIRTB98U_qC5GWmRWxboaVOPPWGvra6iK1dnJKnNAOc1GUV4pU8OwRr4J",
+        "app_version": "1.0",
+        "time_zone": "Asia\/Kolkata",
+        "country_code": "+91",
+        "mobile_no": "88005792115",
+        "first_name": "Avneesh",
+        "last_name": "Kumar",
+        "mobile_no_visibility": 1,
+        "user_type": 2,
+        "org_name": "Sample Organization",
+        "org_type": 4,
+        "org_division": "Unit1"
+    }
+}' ;
 
     //$arr['data'] = $_POST;
     //$arr['app_id'] = $_POST['app_id'];
@@ -131,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             user_type<input type="text" name="user_type"/><br/>
             org_name<input type="text" name="org_name"/><br/>
             org_type<input type="text" name="org_type"/><br/>
-            org_division<input type="text" name="org_divison"/><br/>
+            org_division<input type="text" name="org_division"/><br/>
             <input type="submit" />
         </form>
     </body>

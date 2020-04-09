@@ -30,20 +30,22 @@ use app\models\UserModel;
                                 ['label' => 'Api Log', 'url' => ['/admin/apilog/index']],
                                 ['label' => 'App Detail', 'icon' => 'fas fa-list', 'url' => ['/admin/app-detail/index']],
                             ]],
-//                        [
-//                            'label' => 'Master',
-//                            'url' => '#',
-//                            'items' => [
-//                                ['label' => 'Bill Category', 'url' => ['/master/billcategory/']],
-//                                ['label' => 'Bill Status', 'url' => ['/master/billstatus/'],],
-//                                ['label' => 'Budget Category', 'url' => ['/master/budgetcategory/']],
-//                                ['label' => 'Ministry', 'url' => ['/master/ministry/']],
-//                                ['label' => 'Acts Type', 'url' => ['/master/parliamentactstype/']],
-//                                ['label' => 'Budget Type', 'url' => ['/master/budgettype/']],
-//                                ['label' => 'Budget Year', 'url' => ['/master/budgetyear/']],
-//                                 ['label' => 'President', 'url' => ['/master/president/']],
-//                            ],
-//                        ],
+                        [
+                            'label' => 'Offer Help',
+                            'url' => ['/report/offerhelp'],
+                        ],
+                         [
+                            'label' => 'Request Help',
+                            'url' => ['/report/requesthelp'],
+                        ],
+                         [
+                            'label' => 'App User',
+                            'url' => ['/report/appuser'],
+                        ],
+                         [
+                            'label' => 'Api Log',
+                            'url' => ['/report/apilog'],
+                        ],
 //                        
                     ],
                 ]

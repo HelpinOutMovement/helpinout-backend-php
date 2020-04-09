@@ -21,6 +21,9 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
         ],
+          'report' => [
+            'class' => 'app\modules\report\Module',
+        ],
         
         'api' => [
             'class' => 'app\modules\api\Module',

@@ -70,7 +70,9 @@ class Module extends \yii\base\Module {
     public $api_urls = [
         'api/v1/user/register',
         'api/v1/user/login',
+        'api/v1/user/update',
         'api/v1/user/currentlocation',
+        'api/v1/user/pastactivity',
         'api/v1/activity/suggestions',
         'api/v1/activity/add',
         'api/v1/activity/delete',
@@ -90,7 +92,6 @@ class Module extends \yii\base\Module {
 //        'api/v1/demo/apisave',
 //        'api/v1/user/dashboard',
     ];
-    
     //public $login_url = 'api/v1/user/register';
     public $direct_urls = [
         'api/v1/user/register',
@@ -163,24 +164,23 @@ class Module extends \yii\base\Module {
         $this->model_apilog->request_body = $this->php_input;
         $this->model_apilog->http_response_code = 0;
         $this->model_apilog->api_response_status = 0;
-        
+
         $this->model_apilog->app_registration_id = isset($this->post_json['app_id']) ? (int) $this->post_json['app_id'] : 0;
         $this->model_apilog->save(FALSE);
 
         $parsed_date_time = date_parse($this->post_json['date_time']);
-        $timezone_name = timezone_name_from_abbr("", $parsed_date_time['zone'], 0); // NB: Offset in seconds! 
-
-        if ($timezone_name == "") {
-            throw new \yii\web\ServerErrorHttpException('Api info log save error. Timezone not found. ' . json_encode($this->model_apilog->getErrors()));
-        } else {
-            $request_time_zone_offset = gmdate("H:i:s", $parsed_date_time['zone']);
-            if ($parsed_date_time['zone'] < 0) {
-                $date1 = new \DateTime($request_time_zone_offset);
-                $date2 = new \DateTime('24:00');
-                $finaldate = $date2->diff($date1);
-                $request_time_zone_offset = "-" . $finaldate->format('%h:%i:%s');
-            }
+        //$timezone_name = timezone_name_from_abbr("", $parsed_date_time['zone'], 0); // NB: Offset in seconds! 
+//        if ($timezone_name == "") {
+//            throw new \yii\web\ServerErrorHttpException('Api info log save error. Timezone not found. ' . json_encode($this->model_apilog->getErrors()));
+//        } else {
+        $request_time_zone_offset = gmdate("H:i:s", $parsed_date_time['zone']);
+        if ($parsed_date_time['zone'] < 0) {
+            $date1 = new \DateTime($request_time_zone_offset);
+            $date2 = new \DateTime('24:00');
+            $finaldate = $date2->diff($date1);
+            $request_time_zone_offset = "-" . $finaldate->format('%h:%i:%s');
         }
+//        }
 
         $request_date_time = $parsed_date_time['year'] . "-" . $parsed_date_time['month'] . "-" . $parsed_date_time['day'] . " " . $parsed_date_time['hour'] . ":" . $parsed_date_time['minute'] . ":" . $parsed_date_time['second'];
 
@@ -189,6 +189,10 @@ class Module extends \yii\base\Module {
         $this->model_apilog->request_datetime = $request_date_time; // isset($this->post_json['date_time']) ? $this->post_json['date_time'] : '';
         $this->model_apilog->request_time_zone_offset = $request_time_zone_offset;
 
+        if ($this->model_apilog->app_registration_id > 0) {
+            $active_app = AppRegistration::find()->where(['id' => $this->model_apilog->app_registration_id, 'status' => 1])->one();
+            $this->model_apilog->app_user_id = $active_app->app_user_id;
+        }
         if ($this->model_apilog->save(FALSE)) {
             
         } else {

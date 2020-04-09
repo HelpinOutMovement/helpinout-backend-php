@@ -28,7 +28,7 @@ class Utility {
         /* @var $model Model */
         foreach ($model->getErrors() as $attribute => $errors) {
             foreach ($errors as $error) {
-                $returnMsg.="" . $attribute . " - " . $error . "; ";
+                $returnMsg .= "" . $attribute . " - " . $error . "; ";
             }
         }
         return $returnMsg;
@@ -40,6 +40,14 @@ class Utility {
             $sDate = $oDate->format("d/m/Y h:i A");
         }
         return $sDate;
+    }
+
+    public static function convertDateTimetoTZFormat($date_time, $time_zone_offset) {
+        //echo $time_zone_offset." ".strtotime($time_zone_offset);
+        if ($time_zone_offset < 0)
+            return date("Y-m-d\TH:i:s.000", strtotime($date_time)) . "-" . date("H:i", strtotime($time_zone_offset));
+        else
+            return date("Y-m-d\TH:i:s.000", strtotime($date_time)) . "+" . date("H:i", strtotime($time_zone_offset));
     }
 
 }

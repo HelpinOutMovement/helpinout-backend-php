@@ -26,6 +26,14 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
         $config = require(__DIR__ . '/../config/local_utpal.php');
         break;
+    
+     case 'helpinout.soren':
+        defined('YII_DEBUG') or define('YII_DEBUG', true);
+        defined('YII_ENV') or define('YII_ENV', 'dev');
+        require(__DIR__ . '/../vendor/autoload.php');
+        require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
+        $config = require(__DIR__ . '/../config/local_soren.php');
+        break;
 
     case 'beta.helpinout.org':
     case '3.7.52.176':

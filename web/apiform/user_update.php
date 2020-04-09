@@ -10,7 +10,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-$base_url = 'http://3.7.52.176:8080';
+//$base_url = 'http://3.7.52.176:8080';
 $url = $base_url . '/api/v1/user/update';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -22,6 +22,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data_string = json_encode($arr);
 
 
+    $data_string = '{
+    "app_id": "1",
+    "imei_no": "d31f70e57896db2b",
+    "app_version": "1.0",
+    "date_time": "2020-04-09T12:23:46.159+05:30",
+    "data": {
+        "imei_no": "d31f70e57896db2b",
+        "os_type": "Android",
+        "manufacturer_name": "Xiaomi Redmi Note 8 Pro",
+        "os_version": "28",
+        "firebase_token": "ehb34CdiQGamPCHqcoaxkf:APA91bEVDSyEh165dR2MZJC0PYeEx_uGF4SNZTqvBm5a6Zchbp4g-Ce_EZAKKkg7jSWKWRSA0kvnGkYIk8Oxf5bDM8LsZ1RskRU26GFvXBF6GHVWVN9hCoVXg5CFxZD9ExMTAOm9r3hq",
+        "app_version": "1.0",
+        "time_zone": "Asia\/Kolkata",
+        "country_code": "+91",
+        "mobile_no": "8800579215",
+        "first_name": "Avneesh",
+        "last_name": "Kumar Gupta",
+        "mobile_no_visibility": 1,
+        "user_type": 2,
+        "org_name": "Organization",
+        "org_type": 4,
+        "org_division": "Unit2"
+    }
+}';
+    
     //$arr['data'] = $_POST;
     //$arr['app_id'] = $_POST['app_id'];
     //$arr['imei_no'] = $_POST['imei_no'];

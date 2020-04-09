@@ -72,7 +72,7 @@ class ApiLogSearch extends ApiLog {
             'api_log.api_response_status' => $this->api_response_status,
             'api_log.created_at' => $this->created_at,
          //   'app_detail.user_id'=>$this->user_id,
-            'app_detail.app_version'=>$this->app_version,
+            'app_registration.app_version'=>$this->app_version,
         ]);
 
         $query->andFilterWhere(['like', 'api_log.imei_no', $this->imei_no])

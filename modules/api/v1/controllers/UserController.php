@@ -11,6 +11,8 @@ use app\models\AppRegistration;
 use app\models\ApiLog;
 use app\models\AppUser;
 use app\models\form\LoginRegisterForm;
+use app\models\OfferHelp;
+use app\models\RequestHelp;
 
 /**
  * User controller for the `api` module
@@ -47,6 +49,41 @@ class UserController extends Controller {
         return $this->response;
     }
 
+    public function actionUpdate() {
+        $app_user = AppUser::findOne(['country_code' => $this->data_json['country_code'], 'mobile_no' => $this->data_json['mobile_no']]);
+        $form_model = new LoginRegisterForm($app_user);
+        $form_model->scenario = LoginRegisterForm::SCENARIO_UPDATE;
+
+
+        if (empty($app_user)) {
+            $this->response['status'] = "0";
+            $this->response['message'] = "Unregistered User";
+            unset($this->response['data']);
+        } else {
+
+            if ($form_model->load(['LoginRegisterForm' => $this->data_json], null)) {
+                $form_model->time_zone_offset = \Yii::$app->controller->module->model_apilog->request_time_zone_offset;
+                if ($form_model->validate()) {
+                    $form_model->update();
+                    $this->response['data']['user_id'] = $form_model->app_user->id;
+                    //$this->response['data']['app_id'] = $form_model->app_register->id;
+                    $app_user = AppUser::findOne(['country_code' => $this->data_json['country_code'], 'mobile_no' => $this->data_json['mobile_no']]);
+                    $this->response['data']['user_detail'] = $app_user->detail;
+                } else {
+                    $this->response['status'] = "0";
+                    $this->response['message'] = "Error(s): {" . \app\helpers\Utility::convertModelErrorToString($form_model) . "}";
+                    unset($this->response['data']);
+                }
+            } else {
+                throw new \yii\web\BadRequestHttpException("Bad Request, data missing"); // HTTP COde 400
+            }
+        }
+
+
+        \Yii::$app->response->data = $this->response;
+        return $this->response;
+    }
+
     public function actionLogin() {
 
         $app_user = AppUser::findOne(['country_code' => $this->data_json['country_code'], 'mobile_no' => $this->data_json['mobile_no']]);
@@ -61,6 +98,7 @@ class UserController extends Controller {
                     $form_model->login();
                     $this->response['data']['user_id'] = $form_model->app_user->id;
                     $this->response['data']['app_id'] = $form_model->app_register->id;
+                    $this->response['data']['user_detail'] = $app_user->detail;
                 } else {
                     $this->response['status'] = "0";
                     $this->response['message'] = "Error(s): {" . \app\helpers\Utility::convertModelErrorToString($form_model) . "}";
@@ -95,6 +133,8 @@ class UserController extends Controller {
                     $form_model->register();
                     $this->response['data']['user_id'] = $form_model->app_user->id;
                     $this->response['data']['app_id'] = $form_model->app_register->id;
+                    $app_user = AppUser::findOne(['country_code' => $this->data_json['country_code'], 'mobile_no' => $this->data_json['mobile_no']]);
+                    $this->response['data']['user_detail'] = $app_user->detail;
                 } else {
                     $this->response['status'] = "0";
                     $this->response['message'] = "Error(s): {" . \app\helpers\Utility::convertModelErrorToString($form_model) . "}";
@@ -110,28 +150,23 @@ class UserController extends Controller {
         }
     }
 
-    private function processRegisterIntoDb($confirm_overwrite = FALSE) {
-        $this->response['status'] = "1";
-        $member_app_model = new AppDetail();
-        $member_app_model->user_id = \Yii::$app->user->identity->id;
-        $member_app_model->imei_no = $this->data_json['imei_no'];
-        $member_app_model->os_type = $this->data_json['os_type'];
-        $member_app_model->manufacturer_name = $this->data_json['manufacturer_name'];
-        $member_app_model->os_version = $this->data_json['os_version'];
-        $member_app_model->app_version = $this->data_json['app_version'];
-        $member_app_model->firebase_token = $this->data_json['firebase_token'];
-        $member_app_model->date_of_install = new Expression('NOW()');
+    public function actionPastactivity() {
+        $response = \Yii::$app->response;
 
-        if ($member_app_model->save()) {
-            $this->response['message'] = "success, request processed successfully";
-            $this->response['app_id'] = $member_app_model->id;
-            $this->response['user_id'] = $member_app_model->user_id;
-            $this->response['name'] = \Yii::$app->user->identity->name;
+        $offers = OfferHelp::find()->where(['app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id, 'status' => '1'])->orderBy(' created_at desc')->all();
 
-            Notification::updateAll(['acknowledge_status' => 1, 'acknowledge_date' => new Expression('NOW()'), 'app_id' => $member_app_model->id], 'user_id ="' . \Yii::$app->user->identity->id . '" and acknowledge_status=' . '0');
-        } else {
-            throw new \yii\web\ServerErrorHttpException("App registartion error : " . json_encode($member_app_model->getErrors()));
+        $this->response['data']["offers"] = array();
+        foreach ($offers as $offer) {
+            array_push($this->response['data']["offers"], $offer->detail);
         }
+
+        $requests = RequestHelp::find()->where(['app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id, 'status' => '1'])->orderBy(' created_at desc')->all();
+        $this->response['data']["requests"] = array();
+        foreach ($requests as $request) {
+            array_push($this->response['data']["requests"], $request->detail);
+        }
+        $response->data = $this->response;
+        return $this->response;
     }
 
     public function actionCurrentlocation() {

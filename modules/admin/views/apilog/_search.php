@@ -59,7 +59,7 @@ use kartik\depdrop\DepDrop;
 
     <!--            </div>-->
     <div class="col-md-2">
-        <?= $form->field($model, 'app_version')->dropDownList(\yii\helpers\ArrayHelper::map(app\models\AppDetail::find()->all(), 'app_version', 'app_version'), ['prompt' => 'Select App Version'])->label(false) ?>
+        <?php echo $form->field($model, 'app_version')->dropDownList(\yii\helpers\ArrayHelper::map(\app\models\AppRegistration::find()->all(), 'app_version', 'app_version'), ['prompt' => 'Select App Version'])->label(false) ?>
     </div>
 
     <div class="col-md-2">
