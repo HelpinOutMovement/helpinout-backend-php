@@ -18,10 +18,10 @@ use app\models\base\GenralModel;
  * @property string $location
  * @property float $lat
  * @property float $lng
- * @property int $accuracy
+ * @property float $accuracy
  * @property int $payment 0=for free, 1=want money
  * @property string $address
- * @property string $offer_condition
+ * @property string|null $offer_condition
  * @property string $datetime
  * @property string $time_zone_offset
  * @property int $created_at
@@ -53,12 +53,13 @@ class OfferHelp extends \yii\db\ActiveRecord {
      * {@inheritdoc}
      */
     public function rules() {
+
         return [
-            [['app_user_id', 'api_log_id', 'master_category_id', 'no_of_items', 'accuracy', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['api_log_id', 'offer_uuid', 'master_category_id', 'no_of_items', 'location', 'lat', 'lng', 'accuracy', 'address', 'offer_condition', 'datetime', 'time_zone_offset',], 'required'],
+            [['app_user_id', 'api_log_id', 'master_category_id', 'no_of_items', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['api_log_id', 'offer_uuid', 'master_category_id', 'no_of_items', 'location', 'lat', 'lng', 'accuracy', 'address', 'datetime', 'time_zone_offset'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             //[['location'], 'string'],
-            [['lat', 'lng'], 'number'],
+            [['lat', 'lng', 'accuracy'], 'number'],
             [['datetime', 'time_zone_offset'], 'safe'],
             [['offer_uuid'], 'string', 'max' => 36],
             [['address', 'offer_condition'], 'string', 'max' => 512],
@@ -101,6 +102,27 @@ class OfferHelp extends \yii\db\ActiveRecord {
         return true;
     }
 
+    public function getApp_user() {
+        return $this->hasOne(\app\models\AppUser::className(), ['id' => 'app_user_id']);
+    }
+
+    public function getCategory() {
+        return $this->hasOne(\app\models\MasterCategory::className(), ['id' => 'master_category_id']);
+    }
+
+    public function getMapping() {
+        return $this->hasMany(HelpinoutMapping::className(), ['offer_help_id' => 'id'])->where(['status' => 1]);
+    }
+
+    public function add() {
+        
+    }
+
+    public function inactivate() {
+        $this->status = 0;
+        $this->save();
+    }
+
     public function getActivity_detail() {
         switch ($this->master_category_id) {
             case GenralModel::CATEGORY_FOOD:
@@ -134,7 +156,7 @@ class OfferHelp extends \yii\db\ActiveRecord {
         }
     }
 
-    public function getDetail($type = "partial") {
+    public function getDetail($detail = TRUE, $app_user = TRUE, $mapping = FALSE) {
         $return = array();
 
         $return['activity_type'] = GenralModel::HELP_TYPE_OFFER;
@@ -143,18 +165,47 @@ class OfferHelp extends \yii\db\ActiveRecord {
         $return['activity_category'] = $this->master_category_id;
         $return['activity_count'] = $this->no_of_items;
         $return['geo_location'] = $this->lat . "," . $this->lng;
-        $return['activity_detail'] = $this->activity_detail;
+        $return['status'] = $this->status;
+        $return['offer_condition'] = $this->offer_condition;
 
-        if ($type == "full") {
-            $return['app_user_id'] = $this->app_user_id;
-            $return['app_user_detail'] = $this->app_user->detail;
+        if ($detail) {
+            foreach ($this->activity_detail as $ac_d) {
+                $ac_d = $ac_d->toArray();
+                unset($ac_d['id']);
+                unset($ac_d['offer_help_id']);
+                unset($ac_d['status']);
+                $return['activity_detail'][] = $ac_d;
+            }
+        }
+
+        if ($app_user) {
+            $return['user_detail'] = $this->app_user->detail;
+        }
+
+        if ($mapping) {
+            foreach ($this->mapping as $mapping) {
+                $temp = array();
+                $temp['request_detail'] = $mapping->requestdetail->getDetail(true, true, false);
+                $temp['status'] = $mapping->status;
+                $temp['mapping_initiator'] = $mapping->mapping_initiator;
+
+                if (isset($mapping->rate_report_for_requester))
+                    $temp['rate_report'] = $mapping->rate_report_for_requester->detail;
+                else
+                    $temp['rate_report'] = '{}';
+                $return['mapping'][] = $temp;
+            }
         }
 
         return $return;
     }
 
-    public function getCategory() {
-        return $this->hasOne(\app\models\MasterCategory::className(), ['id' => 'master_category_id']);
+    public function getMappingoffer() {
+        return $this->hasMany(HelpinoutMapping::className(), ['offer_help_id' => 'id'])->where(['status' => 1])->andWhere(['=', 'mapping_initiator', 2])->count();
+    }
+
+    public function getMappingrequest() {
+        return $this->hasMany(HelpinoutMapping::className(), ['offer_help_id' => 'id'])->where(['status' => 1])->andWhere(['=', 'mapping_initiator', 1])->count();
     }
 
 }

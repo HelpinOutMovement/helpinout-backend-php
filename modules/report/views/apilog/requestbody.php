@@ -23,8 +23,10 @@ $this->registerCss(file_get_contents(dirname(__FILE__) . '/jsonview.css'));
         <div class="col-md-12 tabs-lefts">
             <ul class="nav nav-tabs small justify-content-center" style="margin-top:10px;">
 
-                <li class="active"><a data-toggle="tab" href="#dhtab">JSON Format</a></li>
-                <li><a data-toggle="tab" href="#phctab">Raw Format</a></li>
+                <li class="active"><a data-toggle="tab" href="#dhtab">Request/JSON Format</a></li>
+                <li><a data-toggle="tab" href="#phctab">Request/Raw Format</a></li>
+                <li><a data-toggle="tab" href="#resjstab">Response/JSON Format</a></li>
+                <li><a data-toggle="tab" href="#resrwtab">Response/Raw Format</a></li>
 
             </ul>
 
@@ -34,10 +36,7 @@ $this->registerCss(file_get_contents(dirname(__FILE__) . '/jsonview.css'));
                         <div class="statewise-bg" style="height:500px; overflow:scroll;overflow-x:hidden;"> 
                             <table id="example2" class="table table-bordered dataTable table-hoverable table-striped">
                                 <thead>
-
                                     <tr>
-
-
 
                                         <th>Body</th>
 
@@ -103,6 +102,103 @@ JS
 
                                         </tr>
                                     <?php }; ?>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div id="resjstab" class="tab-pane fade">
+                    <div class="border-box">                                          
+                        <div class="statewise-bg" style="height:500px; overflow:scroll;overflow-x:hidden;"> 
+                            <table id="example2" class="table table-bordered dataTable table-hoverable table-striped">
+                                <thead>
+
+                                    <tr>
+                                        <th>Response</th>
+                                    </tr>
+                                    </head>
+                                <tbody>
+                                    <?php foreach ($dataProvider->getModels() as $model) { ?>
+
+                                        <tr>
+
+                                            <td> <?php if ($model->http_response_code != '500') { ?>
+                                                    <div id="roots<?php echo $model->id; ?>"></div>
+                                                    <script>
+                                                        datass = <?php echo $model->response; ?>;
+                                                    </script>    
+
+                                                    <?php
+                                                    $this->registerJs(<<<JS
+      
+      
+       jsonView.format(datass, '#roots$model->id');
+     
+JS
+                                                    );
+                                                    ?>  
+
+                                                <?php
+                                                } else {
+
+                                                    echo $model->http_response_code;
+                                                }
+                                                ?>
+
+                                            </td>
+
+                                        </tr>
+<?php }; ?>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div id="resrwtab" class="tab-pane fade">
+                    <div class="border-box">                                          
+                        <div class="statewise-bg table-responsive" style="height:300px; overflow:scroll;"> 
+                            <table id="example2" class="table table-bordered dataTable table-hoverable table-striped">
+                                <thead>
+
+                                    <tr>
+                                        <th>Response</th>
+                                    </tr>
+                                    </head>
+                                <tbody>
+<?php foreach ($dataProvider->getModels() as $model) { ?>
+
+                                        <tr>
+
+                                            <td style="word-break: break-all;"> 
+                                                <?php if ($model->http_response_code != '500') { ?>
+                                                    <?php
+                                                    echo "<pre>";
+                                                    echo json_encode(json_decode($model->response), JSON_PRETTY_PRINT);
+                                                    echo "</pre>";
+                                                    ?>
+
+                                                <?php
+                                                } else {
+
+                                                    echo "<pre>";
+                                                    echo $model->response;
+                                                    echo "</pre>";
+                                                }
+                                                ?>
+
+
+
+
+
+
+                                            </td>
+
+                                        </tr>
+<?php }; ?>
                                 </tbody>
                             </table>
 

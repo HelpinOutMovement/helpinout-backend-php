@@ -40,7 +40,7 @@ class UserForm extends Model {
             $this->role_id = $this->user_model->role_id;
             $this->email = $this->user_model->email;
             $this->name = $this->user_model->name;
-          //  $this->upd = $this->user_model->upd;
+            //  $this->upd = $this->user_model->upd;
         }
     }
 
@@ -60,7 +60,7 @@ class UserForm extends Model {
                 }, 'targetClass' => \app\models\UserModel::className(), 'message' => 'This Email id already exist please use another email id'],
             [['password'], 'required', 'on' => 'create', 'message' => 'Is required'],
             //   [['confirm_password'], 'compare', 'compareAttribute' => 'password', 'operator' => '=='],
-            [['role_id','blocked_at'], 'safe']
+            [['role_id', 'blocked_at'], 'safe']
         ];
         return $rules;
     }

@@ -23,9 +23,19 @@ class Module extends \yii\base\Module {
     public $controllerNamespace = 'app\modules\api\v1\controllers';
 
     /**
-     * @var \app\modules\dacts\models\ApiLog
+     * @var \app\models\ApiLog
      */
     public $model_apilog;
+
+    /**
+     * @var \app\models\AppRegistration
+     */
+    public $model_app;
+
+    /**
+     * @var \app\models\AppUser
+     */
+    public $model_appuser;
 
     /**
      * @var JSON Ojbect of PHP input 
@@ -71,11 +81,14 @@ class Module extends \yii\base\Module {
         'api/v1/user/register',
         'api/v1/user/login',
         'api/v1/user/update',
-        'api/v1/user/currentlocation',
+        //'api/v1/user/currentlocation',
+        'api/v1/user/locationsuggestion',
+        'api/v1/user/locationrequestersummary',
         'api/v1/user/pastactivity',
         'api/v1/activity/suggestions',
         'api/v1/activity/add',
         'api/v1/activity/delete',
+        'api/v1/activity/mapping',
         'api/v1/mapping/rating',
         'api/v1/mapping/call',
         'api/v1/mapping/delete',
@@ -128,7 +141,13 @@ class Module extends \yii\base\Module {
         if ($response->statusCode == 200) {
             $this->model_apilog->api_response_status = $response->data['status'];
             $this->model_apilog->api_response_message = $response->data['message'];
-            $this->model_apilog->response = isset($response->data['data']) ? json_encode($response->data['data']) : "";
+            //$this->model_apilog->response = isset($response->data['data']) ? json_encode($response->data['data']) : "";
+            //Now loging complete reponse
+            $this->model_apilog->response = json_encode($response->data);
+            if (in_array($this->model_apilog->request_url, $this->direct_urls)) {
+                $this->model_apilog->app_registration_id = isset($response->data['data']['app_id']) ? $response->data['data']['app_id'] : "0";
+                $this->model_apilog->app_user_id = isset($response->data['data']['user_id']) ? $response->data['data']['user_id'] : "0";
+            }
             // $response->statusText = base64_encode($response->statusText);
         } else if ($response->statusCode == 400 || $response->statusCode == 401 || $response->statusCode == 403 || $response->statusCode == 404 || $response->statusCode == 409) {
             // this is required for not found (404) case. Because "onBeforeAction" method is not triggered.
@@ -190,8 +209,11 @@ class Module extends \yii\base\Module {
         $this->model_apilog->request_time_zone_offset = $request_time_zone_offset;
 
         if ($this->model_apilog->app_registration_id > 0) {
-            $active_app = AppRegistration::find()->where(['id' => $this->model_apilog->app_registration_id, 'status' => 1])->one();
-            $this->model_apilog->app_user_id = $active_app->app_user_id;
+            $this->model_app = AppRegistration::find()->where(['id' => $this->model_apilog->app_registration_id, 'status' => 1])->one();
+            if (!empty($this->model_app)) {
+                $this->model_appuser = AppUser::findOne($this->model_app->app_user_id);
+                $this->model_apilog->app_user_id = $this->model_app->app_user_id;
+            }
         }
         if ($this->model_apilog->save(FALSE)) {
             
@@ -221,26 +243,19 @@ class Module extends \yii\base\Module {
             }
 
             // STEP 3 checking the request made from the app is active or not.
-            $active_app = AppRegistration::find()->where(['id' => $this->model_apilog->app_registration_id, 'status' => 1])->one();
-            if (empty($active_app)) {
+            //$active_app = AppRegistration::find()->where(['id' => $this->model_apilog->app_registration_id, 'status' => 1])->one();
+            if (empty($this->model_app)) {
                 throw new \yii\web\ConflictHttpException("App is not active"); //error 409
             }
 
             //Todo
             //STEP4 check wheather user is still active or not and asigned the app.
             //throw new \yii\web\ForbiddenHttpException(""); //error 403
-//            $user = AppUser::findOne(['id' => $active_app->app_user_id]);
-//            if (!$user->status) {
-//                if (\Yii::$app->getUser()->login($user, 10)) {
-//                    //login successful;
-//                } else {
-//                    throw new \yii\web\ForbiddenHttpException("Forbidden - User unable to login."); //error 403
-//                    //unable to login
-//                }
-//            } else {
-//                throw new \yii\web\ForbiddenHttpException("Forbidden - User unable to login."); //error 403
-//                //unable to login
-//            }
+            if (isset($this->model_appuser) && $this->model_appuser->status == "1") {
+                
+            } else {
+                throw new \yii\web\ForbiddenHttpException("Forbidden - User Disabled."); //error 403
+            }
         }
 
         //STEP check for active app

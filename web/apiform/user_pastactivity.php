@@ -10,7 +10,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-//$base_url = 'http://3.7.52.176:8080';
+$base_url = 'http://3.7.52.176:8080';
 $url = $base_url . '/api/v1/user/pastactivity';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -22,28 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data_string = json_encode($arr);
     
     $data_string='{
-    "app_id": "11",
-    "imei_no": "d31f70e57896db2b",
+    "app_id": "357",
+    "imei_no": "18a45b1016e9cf2c",
     "app_version": "1.0",
-    "date_time": "2020-04-09T18:03:57.997+05:30",
+    "date_time": "2020-04-16T22:52:07.154+05:30",
     "data": {
-        "uuid": "414a33e0-abf5-4518-a094-cb1f68b7bd3b",
-        "activity_type": 1,
-        "geo_location": "28.6443189,77.3618774",
-        "geo_accuracy": "1",
-        "address": "181, Niti Khand I, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India",
-        "activity_category": 1,
-        "activity_count": 1,
-        "activity_detail": [
-            {
-                "detail": "",
-                "qty": ""
-            }
-        ],
-        "offerer": "",
-        "requester": "",
-        "pay": 1,
-        "time_zone": "Asia\/Kolkata"
+        "activity_type": 0
     }
 }';
 

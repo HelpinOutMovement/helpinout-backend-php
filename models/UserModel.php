@@ -21,7 +21,7 @@ class UserModel extends baseUser {
     const ROLE_DGT = 6;
     const ROLE_QS = 7;
     const ROLE_ADMIN_SUPPORT = 8;
-     const ROLE_CGC = 9;
+    const ROLE_CGC = 9;
 
     public function scenarios() {
         $scenarios = parent::scenarios();
@@ -45,7 +45,7 @@ class UserModel extends baseUser {
         // add some rules
         $rules['fieldRequired'] = [['name', 'role_id'], 'required'];
         $rules['fieldLength'] = ['name', 'string', 'max' => 150, 'min' => '3'];
-       // $rules['fieldupds'] = ['upd', 'safe'];
+        // $rules['fieldupds'] = ['upd', 'safe'];
         $rules['fieldchangedate'] = ['last_password_change_date', 'safe'];
         $rules['fieldnameTrim'] = ['name', 'trim'];
         $rules['fieldmobiledefault'] = ['mobile_no', 'default', 'value' => ''];
@@ -63,7 +63,8 @@ class UserModel extends baseUser {
     public function getIsDc() {
         return $this->role_id == self::ROLE_DC;
     }
-     public function getIsCgc() {
+
+    public function getIsCgc() {
         return $this->role_id == self::ROLE_CGC;
     }
 
@@ -78,6 +79,7 @@ class UserModel extends baseUser {
     public function getIsSuperadmin() {
         return $this->role_id == self::ROLE_SUPERADMIN;
     }
+
     public function getIsAdminsupport() {
         return $this->role_id == self::ROLE_ADMIN_SUPPORT;
     }
@@ -107,7 +109,7 @@ class UserModel extends baseUser {
         }
 
         if (!empty($this->password)) {
-           // $this->setAttribute('upd', rand('100', '999') . $this->password);
+            // $this->setAttribute('upd', rand('100', '999') . $this->password);
             $this->setAttribute('password_hash', Password::hash($this->password));
         }
 

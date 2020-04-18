@@ -23,29 +23,54 @@ use app\models\UserModel;
 //                            'visible' => (!Yii::$app->user->isGuest),
 //                                ],
 
-                        ['label' => 'API', 'url' => ['/'],
-                            'icon' => 'fas fa-info',
-                            'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
-                            'items' => [
-                                ['label' => 'Api Log', 'url' => ['/admin/apilog/index']],
-                                ['label' => 'App Detail', 'icon' => 'fas fa-list', 'url' => ['/admin/app-detail/index']],
-                            ]],
+                       
+                        [
+                            'label' => 'Dashbaord',
+                             'icon' => 'dashboard',
+                              'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+                           
+                            'url' => ['/dashboard'],
+                        ],
+//                        ['label' => 'API', 'url' => ['/'],
+//                            'icon' => 'fas fa-info',
+//                            'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+//                            'items' => [
+//                                ['label' => 'Api Log', 'url' => ['/admin/apilog/index']],
+//                                ['label' => 'App Detail', 'icon' => 'fas fa-list', 'url' => ['/admin/app-detail/index']],
+//                            ]],
                         [
                             'label' => 'Offer Help',
+                              'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+                           
                             'url' => ['/report/offerhelp'],
                         ],
                          [
                             'label' => 'Request Help',
+                               'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+                           
                             'url' => ['/report/requesthelp'],
                         ],
                          [
                             'label' => 'App User',
+                               'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+                           
                             'url' => ['/report/appuser'],
                         ],
+                        [
+                            'label' => 'App Detail',
+                             'icon' => 'fas fa-list',
+                              'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+                           
+                            'url' => ['/admin/app-detail/index'],
+                        ],
+                        
                          [
                             'label' => 'Api Log',
+                               'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+                           
                             'url' => ['/report/apilog'],
                         ],
+                        
 //                        
                     ],
                 ]

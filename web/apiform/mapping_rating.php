@@ -11,7 +11,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
 }
 //phpinfo(); exit;
 //$base_url = 'http://3.7.52.176:8080';
-$url = $base_url . '/api/v1/user/currentlocation/list';
+$url = $base_url . '/api/v1/mapping/rating';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $arr = [];
@@ -19,9 +19,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $arr['app_id'] = $_POST['app_id'];
     $arr['imei_no'] = $_POST['imei_no'];
     $arr['date_time'] = $_POST['date_time']; //"2020-04-04T13:39:27.397-05:30";
-    $data_string = '{"app_id":"1","imei_no":"d31f70e57896db2b","app_version":"1.0","date_time":"2020-04-05T19:17:26.190+05:30","data":{"geo_location":"28.6442562,77.3617728","geo_accuracy":"23.001","time_zone":"Asia\/Kolkata"}}';
-// json_encode($arr);
+  //  $data_string = '{"app_id":"1","imei_no":"d31f70e57896db2b","app_version":"1.0","date_time":"2020-04-05T19:17:26.190+05:30","data":{"geo_location":"28.6442562,77.3617728","geo_accuracy":"23.001","time_zone":"Asia\/Kolkata"}}';
 
+    $data_string = '{
+    "app_id": "357",
+    "imei_no": "d60a758feb3e1c30",
+    "app_version": "1.0",
+    "date_time": "2020-04-17T02:13:25.809+05:30",
+    "data": {
+        "activity_uuid": "5622818c-ce3e-4e6d-9201-090f94d137e1",
+        "activity_type": 2,
+        "requester": [
+            {
+                "activity_uuid": "c661da28-1e05-421c-8e9c-fd2dc748945a",
+                "rate_report": {
+                    "rating": "2.5",
+                    "recommend_other": 1,
+                    "comments": "Fjf"
+                }
+            }
+        ],
+        "rating": "2.5",
+        "recommend_other": 1
+    }
+}';
+    
+    
 
     //$arr['data'] = $_POST;
     //$arr['app_id'] = $_POST['app_id'];

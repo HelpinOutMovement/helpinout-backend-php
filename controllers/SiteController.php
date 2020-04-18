@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use opensooq\firebase\FirebaseNotifications;
 
 class SiteController extends Controller {
 
@@ -61,18 +62,59 @@ class SiteController extends Controller {
      *
      * @return string
      */
-   
-
     public function actionIndex() {
         if (!Yii::$app->user->isGuest) {
-           
-                return $this->redirect(['/admin/apilog']);
-           
+
+            return $this->redirect(['/dashboard']);
         } else {
-             $this->layout = '@app/themes/helpinout/views/layouts/sitemain';
-         return $this->render('index');
+
+            $res = array();
+            $res['title'] = "ALGN" . " ";
+            $res['message'] = 'message';
+            $res['visible'] = 'visible';
+
+            $res['id'] = 'notification_model->id';
+            $res['genrated_on'] = 'genrated_on';
+
+            $service = new FirebaseNotifications(['authKey' => 'AAAAikKcjI4:APA91bGAPehF_Px6UG7BpSMga4isV6dnEPNYOIm3zKySw1XwNoSXnIRyas9bhOiVBiLEmCS5ITqm5LzbdOLe40WPCcVfIN6pwtHewlsENnAC0zcM7S1miUcCxLaNEyzv3yQF76dJCu4M']);
+
+            $service->sendNotification(["fdwbaCEZQRm7lnSUUK4yJ7:APA91bFSt2XyoEG5kVhsvADyIZVaLbn9cYKOR7Uw-0LImP7bCc0wESI1n_a-ChoclnU26GJWU-DeGKKYsP2G37A89NjNwfWv6olh_Rnl44FF9Gn6eM-ANgpN4Ipz6Ps_4wWAaBCU8gXb"], $res);
+
+            $this->layout = '@app/themes/helpinout/views/layouts/sitemain';
+
+            $data = [];
+            $data['request_all'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->count();
+            $data['request_today'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere("DATE_FORMAT(datetime, '%Y-%m-%d')='" . date('Y-m-d') . "'")->count();
+            $data['offer_all'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->count();
+            $data['offer_today'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere("DATE_FORMAT(datetime, '%Y-%m-%d')='" . date('Y-m-d') . "'")->count();
+
+            $data['food'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 1])->count();
+            $data['people'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 2])->count();
+            $data['shelter'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 3])->count();
+            $data['ppe'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 4])->count();
+            $data['testing'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 5])->count();
+            $data['medicines'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 6])->count();
+            $data['ambulance'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 7])->count();
+            $data['equip'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 8])->count();
+            $data['other'] = \app\models\OfferHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 0])->count();
+
+            $data['req_food'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 1])->count();
+            $data['req_people'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 2])->count();
+            $data['req_shelter'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 3])->count();
+            $data['req_ppe'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 4])->count();
+            $data['req_testing'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 5])->count();
+            $data['req_medicines'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 6])->count();
+            $data['req_ambulance'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 7])->count();
+            $data['req_equip'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 8])->count();
+            $data['req_other'] = \app\models\RequestHelp::find()->where(['=', 'status', 1])->andWhere(['=', 'master_category_id', 0])->count();
+
+             $request= \app\models\RequestHelp::find()->andWhere(['=', 'status', 1])->all();
+             $offer= \app\models\OfferHelp::find()->andWhere(['=', 'status', 1])->all();
+//      print_r($request);
+//      exit();
+            return $this->render('index', ['data' => $data,'offer'=>$offer,'request'=>$request]);
+            
         }
-        
     }
 
     /**
@@ -122,132 +164,6 @@ class SiteController extends Controller {
         return $this->render('contact', [
                     'model' => $model,
         ]);
-    }
-
-    public function actionDownloadreport() {
-
-        ini_set('max_execution_time', 12000000000000000);
-        ini_set('memory_limit', '10244444444444M');
-        $temp_data = '';
-        $base_path = Yii::$app->params['datapath'];
-
-
-        $sql = "SELECT parameter_grading.parameter_id as parameter_id, parameter_grading.qs_weighted_value as qs_value,parameter_grading.dgt_weighted_value as dgt_value,parameter_grading.iti_code,presented_in_grievance_committee_no,iti_name,state,district,grievance_raised,addressed_in_grievance_committee_no_f,zero_graded,addressed_in_grievance_committee_no_s,random_check,"
-                . "addressed_in_grievance__committee_no_t,qs_user,qs_grade,grc_grade,qs_submission_date_time,"
-                . "qs_email_date_time,status FROM cgm_report left join parameter_grading on cgm_report.iti_code=parameter_grading.iti_code where parameter_grading.parameter_id<=27";
-        $itis = \Yii::$app->getDb()->createCommand($sql)->queryAll();
-        if (!empty($itis)) {
-
-            $temp_data .= 'SNo,ITI Code,Presented in Grievance Committee No.,ITI Name,Private/Govt.,State,District,Grievance Raised(Yes/No),Addressed in Grievance Committee No,Zero Graded (Yes/No),Addressed in Grievance Committee No,Random Check (Yes/No),Addressed in Grievance Committee No,QS User,Parameter id,Paramaters,QS Score,QS Grade,GRC Score,GRC Grade,QS Submission date & time,QS Email Date & time,Status,';
-
-            $temp_data .= "\r\n";
-            $sno = 0;
-            foreach ($itis as $q) {
-
-                
-                if ($q['parameter_id'] == '1') {
-                    $sno++;
-                    $code = $q['iti_code'];
-                    $presented_in_grievance_committee_no = $q['presented_in_grievance_committee_no'];
-                    $iti_name = '"' . $q['iti_name'] . '"';
-                    $state = $q['state'];
-                    $district = $q['district'];
-                    $grievance_raised = $q['grievance_raised'];
-                    $addressed_in_grievance_committee_no_f = $q['addressed_in_grievance_committee_no_f'];
-                    $zero_graded = $q['zero_graded'];
-                    $random_check = $q['random_check'];
-                    $addressed_in_grievance__committee_no_t = $q['addressed_in_grievance__committee_no_t'];
-                    $addressed_in_grievance_committee_no_s = $q['addressed_in_grievance_committee_no_s'];
-                    $qs_user = $q['qs_user'];
-                    $qs_grade = $q['qs_grade'];
-                    $grc_grade = $q['grc_grade'];
-                    $qs_submission_date_time = $q['qs_submission_date_time'];
-                    $qs_email_date_time = $q['qs_email_date_time'];
-                    $status = $q['status'];
-                    $sql1 = "SELECT iti_type_id FROM iti_list where code='" . $code . "'";
-                    $ititype = \Yii::$app->getDb()->createCommand($sql1)->queryOne();
-                    $iti_type = $ititype['iti_type_id'];
-                    if ($iti_type == '1') {
-                        $iti_type = 'Pvt';
-                    } else if ($iti_type == '2') {
-                        $iti_type = 'Govt';
-                    } else {
-                        $iti_type = '';
-                    }
-                } else {
-                    $code = '';
-                    $presented_in_grievance_committee_no = '';
-                    $iti_name = '';
-                    $state = '';
-                    $district = '';
-                    $grievance_raised = '';
-                    $addressed_in_grievance_committee_no_f = '';
-                    $zero_graded = '';
-                    $random_check = '';
-                    $addressed_in_grievance__committee_no_t = '';
-                    $addressed_in_grievance_committee_no_s = '';
-                    $qs_user = '';
-                    $qs_grade = '';
-                    $grc_grade = '';
-                    $qs_submission_date_time = '';
-                    $qs_email_date_time = '';
-                    $status = '';
-                    $iti_type = '';
-                }
-
-                $qs_score = $q['qs_value'];
-                $grc_score = $q['dgt_value'];
-
-                $parameter_id = $q['parameter_id'];
-                $q_sql = "SELECT name FROM master_parameter where id='" . $parameter_id . "'";
-                $parameter_name = \Yii::$app->getDb()->createCommand($q_sql)->queryOne();
-                $parameter_name = '"' . $parameter_name['name'] . '"';
-
-
-                $temp_data .= "$sno,"
-                        . "$code,"
-                        . "$presented_in_grievance_committee_no,"
-                        . "$iti_name,"
-                        . "$iti_type,"
-                        . "$state,"
-                        . "$district,"
-                        . "$grievance_raised,"
-                        . "$addressed_in_grievance_committee_no_f,"
-                        . "$zero_graded,"
-                        . "$addressed_in_grievance_committee_no_s,"
-                        . "$random_check,"
-                        . "$addressed_in_grievance__committee_no_t,"
-                        . "$qs_user,"
-                        . "$parameter_id,"
-                        . "$parameter_name,"
-                        . "$qs_score,"
-                        . "$qs_grade,"
-                        . "$grc_score,"
-                        . "$grc_grade,"
-                        . "$qs_submission_date_time,"
-                        . "$qs_email_date_time,"
-                        . "$status\n";
-            }
-        }
-
-
-        $file_name = "report";
-        $filePath = $base_path . '/' . $file_name . ".csv";
-        $fp = fopen($filePath, 'a+');
-        $sr_no = 1;
-
-
-        fwrite($fp, $temp_data);
-        fclose($fp);
-
-        header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
-        header("Content-Type: application/csv");
-        header("Content-Length: " . filesize($filePath));
-        header("Content-Disposition: attachment; filename=$file_name.csv");
-        readfile($filePath);
-        unlink($filePath);
-
-        exit();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "app_user".
@@ -19,6 +20,8 @@ use Yii;
  * @property string|null $org_name
  * @property int|null $master_app_user_org_type
  * @property string|null $org_division
+ * @property int|null $created_at
+ * @property int|null $updated_at
  * @property int $status
  */
 class AppUser extends \yii\db\ActiveRecord {
@@ -30,30 +33,41 @@ class AppUser extends \yii\db\ActiveRecord {
         return 'app_user';
     }
 
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'first_name', 'last_name'], 'required'],
             [['time_zone_offset'], 'safe'],
-            [['mobile_no_visibility', 'user_type', 'master_app_user_org_type', 'status'], 'integer'],
+            [['mobile_no_visibility', 'user_type', 'master_app_user_org_type', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
             [['time_zone'], 'string', 'max' => 30],
             [['country_code'], 'string', 'max' => 10],
             [['mobile_no'], 'string', 'max' => 12],
             [['first_name', 'last_name'], 'string', 'max' => 60],
             [['org_name', 'org_division'], 'string', 'max' => 256],
-            [['status'],'default','value'=>'1'],
+            [['country_code', 'mobile_no'], 'unique', 'targetAttribute' => ['country_code', 'mobile_no']],
+            [['status'], 'default', 'value' => '1'],
         ];
     }
-
 
     /**
      * {@inheritdoc}
      */
-     public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'time_zone' => 'Time Zone',
@@ -82,7 +96,7 @@ class AppUser extends \yii\db\ActiveRecord {
         return true;
     }
 
-    public function getDetail($type = "Array") {
+    public function getDetail() {
         $return = array();
 
         $return['country_code'] = $this->country_code;
@@ -95,15 +109,41 @@ class AppUser extends \yii\db\ActiveRecord {
         $return['org_type'] = $this->master_app_user_org_type;
         $return['org_division'] = $this->org_division;
 
+        $rating = $this->avgrating;
+        $return['rating_avg'] = $rating['avg'];
+        $return['rating_count'] = $rating['count'];
+
         return $return;
     }
-public function getUser()
-{
-    return $this->first_name . ' ' . $this->last_name;
-   
-}
-public function getAppuserorgtype()
-{
-    return $this->hasOne(\app\models\MasterAppUserOrganizationType::className(),['id'=>'master_app_user_org_type']);
-}
+
+    public function getUsername() {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getActiveapp() {
+        return $this->hasOne(\app\models\AppRegistration::className(), ['app_user_id' => 'id'])->where(['status' => 1])->orderBy('date_of_uninstall desc');
+    }
+
+    public function getAppuserorgtype() {
+        return $this->hasOne(\app\models\MasterAppUserOrganizationType::className(), ['id' => 'master_app_user_org_type']);
+    }
+
+    public function getAvgrating($activity_type = null) {
+
+        $rating = [];
+
+        if ($activity_type == null) {
+            $command = Yii::$app->db->createCommand("SELECT avg(rating) as `avg`, count(rating) as `count` FROM helpinout_rate_report where offer_app_user_id='" . $this->id . "' or request_app_user_id='" . $this->id . "'");
+        } else if ($activity_type == base\GenralModel::HELP_TYPE_REQUEST) {
+            $command = Yii::$app->db->createCommand("SELECT avg(rating) as `avg`, count(rating) as `count` FROM helpinout_rate_report where   request_app_user_id='" . $this->id . "'");
+        } else if ($activity_type == base\GenralModel::HELP_TYPE_REQUEST) {
+            $command = Yii::$app->db->createCommand("SELECT avg(rating) as `avg`, count(rating) as `count` FROM helpinout_rate_report where offer_app_user_id='" . $this->id . "'");
+        }
+
+        $result = ($command->queryAll())[0];
+        $rating['avg'] = (round($result['avg'] * 2)) / 2;
+        $rating['count'] = (int) $result['count'];
+        return $rating;
+    }
+
 }

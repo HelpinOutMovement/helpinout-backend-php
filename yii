@@ -14,7 +14,20 @@ defined('YII_ENV') or define('YII_ENV', 'dev');
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/vendor/yiisoft/yii2/Yii.php';
 
-$config = require __DIR__ . '/config/console.php';
+switch (strtolower($_SERVER['PWD'])) {
+    case '/home/vikas/www/helpinout':
+        $config = require(__DIR__ . '/config/local_console_vk.php');
+        break;
+    case '/home/helpinout/beta':
+        $config = require(__DIR__ . '/config/beta_console.php');
+        break;
+    default:
+        //$config = require(__DIR__ . '/config/beta_console.php');
+        //$config = require(__DIR__ . '/config/local_console_govind.php');
+        $config = require(__DIR__ . '/config/prod_console.php');
+        break;
+}
+
 
 $application = new yii\console\Application($config);
 $exitCode = $application->run();

@@ -32,9 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 </div><br/>
                 <div class="row">
-                                        <div class="col-md-10">
-                                            <div class="text-left"><?php echo $this->render('_search', ['model' => $searchModel]);  ?></div>
-                                        </div>
+                    <div class="col-md-10">
+                        <div class="text-left"><?php echo $this->render('_search', ['model' => $searchModel]); ?></div>
+                    </div>
 
                 </div>
             </div>
@@ -46,117 +46,172 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?=
                     GridView::widget([
                         'dataProvider' => $dataProvider,
-                        'summaryOptions' => ['class' => 'summary col-sm-6 dataTables_info'],
-                        'layout' => "{items}\n{summary}{pager}",
+//                        'summaryOptions' => ['class' => 'summary col-sm-6 dataTables_info'],
+                        'layout' => "{pager}\n{summary}\n{items}",
+                        'tableOptions' => ['class' => 'table table-hover'],
                         'columns' => [
-                            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'width: 3%']],
-                            
+//                            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'width: 3%']],
                             [
-                                'attribute' => 'master_category_id',
+                                'attribute' => 'id',
+                                'contentOptions' => ['style' => 'width: 3%'],
+                                'enableSorting' => false,
+                                'format' => 'raw',
+                                'value' => function($model) {
+                                    return Html::a($model->id != null ? $model->id : '',['/report/offerhelp/offerdetail?offer_id=' . $model->id], ['data-pjax' => "0", 'class' => 'underlinelink']);
+                                }
+                            ],
+                            [
+                                'attribute' => 'User Detail',
                                 'contentOptions' => ['style' => 'width: 15%'],
                                 'enableSorting' => false,
                                 'format' => 'raw',
-                                 'value' => function($model) {
-                                    return $model->master_category_id != null ? $model->category->category_name : '-';
+                                'value' => function($model) {
+                                    return Html::a($model->app_user_id != null ? $model->app_user->first_name.' '.$model->app_user->last_name.'<br>('.$model->app_user->country_code.$model->app_user->mobile_no.')' : '',['/report/appuser/detail?id=' . $model->app_user_id], ['data-pjax' => "0", 'class' => 'underlinelink']);
+                                }
+                            ],
+                                    [
+                                'attribute' => 'Request Mapped By Me',
+                                'contentOptions' => ['style' => 'width: 10%'],
+                                'enableSorting' => false,
+                                'format' => 'raw',
+                                'value' => function($model) {
+                                    return $model->id != null ? $model->mappingoffer:'';
+                                }
+                            ],
+                                    [
+                                'attribute' => 'Offer Recieved',
+                                'contentOptions' => ['style' => 'width: 10%'],
+                                'enableSorting' => false,
+                                'format' => 'raw',
+                                'value' => function($model) {
+                                     return $model->id != null ? $model->mappingrequest:'';
                                 }
                             ],
                             [
-                                'attribute' => 'no_of_items',
+                                'attribute' => 'master_category_id',
+                                'contentOptions' => ['style' => 'width: 10%'],
+                                'enableSorting' => false,
+                                'format' => 'raw',
+                                'value' => function($model) {
+                                    return $model->master_category_id != null ? $model->category->category_name : 'Others';
+                                }
+                            ],
+//                            [
+//                                'attribute' => 'no_of_items',
+//                                'enableSorting' => false,
+//                                'format' => 'raw',
+////                                'header' => 'App Version',
+//                                'value' => function($model) {
+//                                    return $model->no_of_items != null ? $model->no_of_items : '';
+//                                }
+//                            ],
+                            [
+                                'attribute' => 'Detail',
                                 'enableSorting' => false,
                                 'format' => 'raw',
 //                                'header' => 'App Version',
                                 'value' => function($model) {
-                                    return $model->no_of_items != null ? $model->no_of_items : '-';
+
+                                    if ($model->master_category_id == 2) {
+                                        return '';
+                                    } else if ($model->master_category_id == 7) {
+                                        return '';
+                                    } else {
+                                        $html = '<ul>';
+                                        foreach ($model->activity_detail as $detail) {
+                                            $html .= '<li>' . $detail->detail != null ? $detail->detail . ' (' . $detail->quantity . ')' . '<br>' : '' . "</li>";
+//                                      
+                                        }
+                                        $html .= "</ul>";
+                                        return $html;
+                                    }
                                 }
                             ],
-//                           
                             [
-                                'attribute' => 'lat',
+                                'attribute' => 'Lat,Lng',
                                 'enableSorting' => false,
                                 'format' => 'raw',
 //                                'header' => 'App Version',
                                 'value' => function($model) {
-                                    return $model->lat != null ? $model->lat : '-';
+                                    return $model->lat != null ? $model->lat . ',' . $model->lng : '';
                                 }
                             ],
-                            [
-                                'attribute' => 'lng',
-                                'enableSorting' => false,
-                                'format' => 'raw',
-//                                'header' => 'App Version',
-                                'value' => function($model) {
-                                    return $model->lng != null ? $model->lng : '-';
-                                }
-                            ],
-                            
                             [
                                 'attribute' => 'payment',
                                 'enableSorting' => false,
                                 'format' => 'raw',
 //                                'header' => 'App Version',
                                 'value' => function($model) {
-                                    return $model->payment != null ? $model->payment : '-';
+                                    return $model->payment != null ? $model->payment : '0';
                                 }
                             ],
-                           
                             [
                                 'attribute' => 'offer_condition',
                                 'enableSorting' => false,
                                 'format' => 'raw',
 //                                'header' => 'App Version',
                                 'value' => function($model) {
-                                    return $model->offer_condition != null ? $model->offer_condition : '-';
+                                    return $model->offer_condition != null ? $model->offer_condition : '';
                                 }
                             ],
+//                            [
+//                                'attribute' => 'User DateTime ',
+//                                'enableSorting' => false,
+//                                'format' => 'raw',
+////                                'header' => 'App Version',
+//                                'value' => function($model) {
+//                                    return $model->datetime != null ? date('d-m-Y H:i:s', strtotime($model->datetime)) : '00-00-000 00:00:00';
+//                                }
+//                            ],
+//                            [
+//                                'attribute' => 'User Time Zone Offset',
+//                                'enableSorting' => false,
+//                                'format' => 'raw',
+////                                'header' => 'App Version',
+//                                'value' => function($model) {
+//                                    return $model->time_zone_offset != null ? $model->time_zone_offset : ' ';
+//                                }
+//                            ],
                             [
-                                'attribute' => 'Date ',
+                                'attribute' => 'Created At ',
                                 'enableSorting' => false,
                                 'format' => 'raw',
 //                                'header' => 'App Version',
                                 'value' => function($model) {
-                                    return $model->datetime != null ?date("d-m-Y",strtotime($model->datetime)) : '-';
+                                    return $model->created_at != null ? date('d-m-Y H:i:s', $model->created_at) : '00-00-000 00:00:00';
                                 }
                             ],
                             [
-                                'attribute' => 'time_zone_offset',
-                                'enableSorting' => false,
-                                'format' => 'raw',
-//                                'header' => 'App Version',
-                                'value' => function($model) {
-                                    return $model->time_zone_offset != null ? $model->time_zone_offset : '-';
-                                }
-                            ],
-                                     [
                                 'attribute' => 'status',
                                 'enableSorting' => false,
                                 'format' => 'raw',
 //                                'header' => 'App Version',
                                 'value' => function($model) {
-                                    if($model->status)
-                                    {
-                                        return "Active";
+                                    if ($model->status) {
+                                        return "<p class='active'> Active</p>";
+                                    } else {
+                                        return "<p class='inactive'>Inactive</p>";
                                     }
-                                    else
-                                    {
-                                        return "Inactive";
-                                    }
-                                    }
+                                }
                             ],
-//                            [
-//                                'header' => Yii::t('user', ''),
-//                                'contentOptions' => ['style' => 'width: 6%'],
-//                                'value' => function ($model) {
-//
-//                                    return Html::button(Yii::t('user', '<span class="fa fa-info"></span> Detail'), ['value' => Url::to('/admin/apilog/requestbody?id=' . $model->id), 'class' => 'btn btn-xs btn-info btn-block reqmodel']);
-//                                },
-//                                'format' => 'raw',
-//                            ],
-//                                [
-//                                    'attribute' => 'request_body',
-//                                    'enableSorting' => false,
-//                                    'format' => 'raw',
-//                                ],
-                        //'created_at',
+                            [
+                                'attribute' => 'Action',
+                                'enableSorting' => false,
+                                'format' => 'raw',
+//                                'header' => 'App Version',
+                                'value' => function($model) {
+                                    if ($model->status) {
+                                        return Html::a('Make Inactive', ['/report/offerhelp/inactive?id=' . $model->id], ['data-pjax' => "0", 'class' => 'btn btn-xs btn-default btn-danger', 'data-confirm' => 'are you sure to inactive this ? ']) . '';
+
+//                           
+                                    } else {
+                                        return Html::a('Make Active', ['/report/offerhelp/active?id=' . $model->id], ['data-pjax' => "0", 'class' => 'btn btn-xs btn-default btn-primary', 'data-confirm' => 'are you sure to active this ?']) . '';
+
+//                           
+                                    }
+                                }
+                            ],
+//                           
                         ],
                     ]);
                     ?>
@@ -167,4 +222,19 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-
+<style>
+    /*    .active{
+            color:rgb(0, 255, 0);
+        }
+        .inactive{
+            color:rgb(0, 255, 0);
+        }*/
+    .btn-primary
+    {
+        color:#fff;
+    }
+    .btn-danger
+    {
+        color:#fff;
+    }
+</style>

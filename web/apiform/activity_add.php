@@ -10,7 +10,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-//$base_url = 'http://3.7.52.176:8080';
+$base_url = 'http://3.7.52.176:8080';
 $url = $base_url . '/api/v1/activity/add';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -24,35 +24,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     $data_string = '{
-    "app_id": "2",
-    "imei_no": "d60a758feb3e1c30",
+    "app_id": "220",
+    "imei_no": "d31f70e57896db2b",
     "app_version": "1.0",
-    "date_time": "2020-04-06T19:19:41.866-05:00",
+    "date_time": "2020-04-13T19:50:47.910+05:30",
     "data": {
-        "uuid": "78fa2f0e-6d4c-4074-8e9d-c91ea1e9ac89",
-        "activity_type": 5,
-        "geo_location": "38.6627279,77.3886294",
-        "geo_accuracy": "16",
-        "address": "464, Sector 1, Vasundhara, Ghaziabad, Uttar Pradesh 201012, India",
+        "activity_uuid": "6d957864-44fe-4d0c-a078-9cae7e8cc9b6",
+        "activity_type": 1,
+        "geo_location": "28.6442644,77.3617955",
+        "geo_accuracy": "23.245",
+        "address": "181, Niti Khand I, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India",
         "activity_category": 1,
-        "activity_count": 2,
-        "offer_condition" : "ndasnsmdsadsl dsla dslsl dsd",
+        "activity_count": 1,
         "activity_detail": [
             {
-                "detail": "Y1y",
-                "qty": "1"
-            },
-            {
-                "detail": "G1",
-                "qty": "2"
+                "detail": "Vzbs",
+                "qty": "85"
             }
         ],
         "offerer": "",
         "requester": "",
-        "pay": 0,
-        "time_zone": "Asia\/Kolkata"
+        "pay": 1
     }
-    }';
+}';
     
 //    $data_string='{
 //    "app_id": "2",
@@ -81,26 +75,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 //}';
     
     $data_string='{
-  "app_id": "11",
-  "imei_no": "d31f70e57896db2b",
-  "app_version": "1.0",
-  "date_time": "2020-04-09T19:13:08.101+05:30",
-  "data": {
-    "activity_uuid": "d65db754-8b96-4b07-87db-24cc98a66b39",
-    "activity_type": 1,
-    "activity_category": 2,
-    "volunters_required": 1,
-    "volunters_detail": "Cavsgs",
-    "address": "181, Niti Khand I, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India",
-    "volunters_quantity": "546",
-    " technical_personal_required": 1,
-    "technical_personal_detail": "Vzvvsvs",
-    "technical_personal_quantity": "976",
-    "pay": 1,
-    "geo_location": "28.6442629,77.3617667",
-    "geo_accuracy": "22",
-    "time_zone": "Asia/Kolkata"
-  }
+    "app_id": "220",
+    "imei_no": "d31f70e57896db2b",
+    "app_version": "1.0",
+    "date_time": "2020-04-13T19:50:47.910+05:30",
+    "data": {
+        "activity_uuid": "6d957864-44fe-4d0c-a078-9cae7e8cc9b6",
+        "activity_type": 1,
+        "geo_location": "28.6442644,77.3617955",
+        "geo_accuracy": "23.245",
+        "address": "181, Niti Khand I, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India",
+        "activity_category": 1,
+        "activity_count": 1,
+        "activity_detail": [
+            {
+                "detail": "Vzbs",
+                "qty": "85"
+            }
+        ],
+        "offerer": "",
+        "requester": "",
+        "pay": 1
+    }
 }';
     
 

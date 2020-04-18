@@ -12,21 +12,19 @@ use Yii;
  * @property int $display_order
  * @property int $status
  */
-class MasterAppUserOrganizationType extends \yii\db\ActiveRecord
-{
+class MasterAppUserOrganizationType extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'master_app_user_organization_type';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['org_type', 'display_order'], 'required'],
             [['display_order', 'status'], 'integer'],
@@ -37,8 +35,7 @@ class MasterAppUserOrganizationType extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'org_type' => 'Org Type',
@@ -46,4 +43,5 @@ class MasterAppUserOrganizationType extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
 }

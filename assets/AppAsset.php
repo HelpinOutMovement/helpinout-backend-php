@@ -20,7 +20,16 @@ class AppAsset extends AssetBundle {
         //'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css',
         'style.css',
         'popupWindow.css',
+        'https://maps.googleapis.com/maps/api/js?key=AIzaSyCaNo-whQ0kNdV0HBdKPC3X6QcURe_RtR4&callback',
+      
          'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css',
+     
+       // 'main_assets/css/bootstrap.min.css',
+       // 'main_assets/css/all.min.css',
+        'main_assets/css/style.css',
+        'main_assets/css/slick.css',
+        'main_assets/css/slick-theme.css',
+        'https://cdn.thinkgeo.com/vectormap-js/1.0.2/vectormap.css',
        
         
     ];
@@ -43,7 +52,15 @@ class AppAsset extends AssetBundle {
          'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js',
         'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js',
         'popupWindow.js',
-        //'https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.js'
+       // 'main_assets/js/popper.min.js',
+       // 'main_assets/js/bootstrap.min.js',
+      //  'main_assets/js/bootstrap.bundle.min.js',
+        'main_assets/js/slick.min.js',
+        'main_assets/js/main.js',
+        'https://cdn.thinkgeo.com/vectormap-js/1.0.2/vectormap.js',
+        'https://cdn.thinkgeo.com/vectormap-icons/1.0.0/webfontloader.js',
+      //  'main_assets/js/map-script.js'
+     
     ];
     public $depends = [
         'yii\web\YiiAsset',

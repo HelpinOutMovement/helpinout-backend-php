@@ -6,7 +6,7 @@ use yii\widgets\Breadcrumbs;
 use app\models\UserModel;
 use kartik\widgets\AlertBlock;
 
-app\assets\MainAppAsset::register($this);
+app\assets\AppAsset::register($this);
 
 $arg = explode('/', Yii::$app->request->url);
 $module_title = "";

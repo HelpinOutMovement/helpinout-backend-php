@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "app_registration".
@@ -21,28 +22,37 @@ use Yii;
  * @property string|null $date_of_uninstall
  * @property int $status
  * @property int|null $created_at
- * @property int|null $created_by
  * @property int|null $updated_at
- * @property int|null $updated_by
  */
-class AppRegistration extends \yii\db\ActiveRecord
-{
+class AppRegistration extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'app_registration';
+    }
+
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['app_user_id', 'time_zone_offset', 'date_of_install'], 'required'],
-            [['app_user_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['app_user_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
             [['firebase_token'], 'string'],
             [['time_zone_offset', 'date_of_install', 'date_of_uninstall'], 'safe'],
             [['imei_no', 'os_type', 'app_version'], 'string', 'max' => 100],
@@ -54,8 +64,7 @@ class AppRegistration extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'app_user_id' => 'App User ID',
@@ -71,12 +80,10 @@ class AppRegistration extends \yii\db\ActiveRecord
             'date_of_uninstall' => 'Date Of Uninstall',
             'status' => 'Status',
             'created_at' => 'Created At',
-            'created_by' => 'Created By',
             'updated_at' => 'Updated At',
-            'updated_by' => 'Updated By',
         ];
     }
-    
+
     public function getAppUser() {
         return $this->hasOne(AppUser::className(), ['id' => 'app_user_id']);
     }

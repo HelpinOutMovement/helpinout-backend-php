@@ -9,13 +9,12 @@ use app\models\RequestHelp;
 /**
  * RequestHelpSearch represents the model behind the search form of `app\models\RequestHelp`.
  */
-class RequestHelpSearch extends RequestHelp
-{
+class RequestHelpSearch extends RequestHelp {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'app_user_id', 'api_log_id', 'master_category_id', 'no_of_items', 'accuracy', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
             [['request_uuid', 'location', 'address', 'datetime', 'time_zone_offset'], 'safe'],
@@ -26,8 +25,7 @@ class RequestHelpSearch extends RequestHelp
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,14 +37,17 @@ class RequestHelpSearch extends RequestHelp
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = RequestHelp::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => ['id' => SORT_DESC]
+            ],
+            'pagination' => array('pageSize' => 50),
         ]);
 
         $this->load($params);
@@ -69,16 +70,17 @@ class RequestHelpSearch extends RequestHelp
             'accuracy' => $this->accuracy,
             'payment' => $this->payment,
             'datetime' => $this->datetime,
-            'time_zone_offset' => $this->time_zone_offset,
+            'time_zone_offset' => str_replace('+', '', $this->time_zone_offset),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'request_uuid', $this->request_uuid])
-            ->andFilterWhere(['like', 'location', $this->location])
-            ->andFilterWhere(['like', 'address', $this->address]);
+                ->andFilterWhere(['like', 'location', $this->location])
+                ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }
+
 }

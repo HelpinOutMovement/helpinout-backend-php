@@ -22,16 +22,15 @@ use Yii;
  * @property int $app_user_id
  * @property int $created_at
  */
-class ApiLog extends \yii\db\ActiveRecord
-{
+class ApiLog extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'api_log';
     }
-    
+
     public function behaviors() {
         return [
             'timestamp' => [
@@ -46,8 +45,7 @@ class ApiLog extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['ip', 'request_url', 'app_user_id', 'created_at'], 'required'],
             [['request_datetime', 'request_time_zone_offset'], 'safe'],
@@ -63,8 +61,7 @@ class ApiLog extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'imei_no' => 'Imei No',
@@ -85,6 +82,10 @@ class ApiLog extends \yii\db\ActiveRecord
 
     public function getAppdetail() {
         return $this->hasOne(AppRegistration::className(), ['id' => 'app_registration_id']);
+    }
+
+    public function getAppuser() {
+        return $this->hasOne(AppUser::className(), ['id' => 'app_user_id']);
     }
 
 }

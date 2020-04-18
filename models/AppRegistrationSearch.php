@@ -19,7 +19,7 @@ class AppRegistrationSearch extends AppRegistration {
      */
     public function rules() {
         return [
-            [['id', 'app_user_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'app_user_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['imei_no', 'os_type', 'manufacturer_name', 'os_version', 'firebase_token', 'app_version', 'date_of_install', 'date_of_uninstall'], 'safe'],
         ];
     }
@@ -66,9 +66,9 @@ class AppRegistrationSearch extends AppRegistration {
             'date_of_uninstall' => $this->date_of_uninstall,
             'status' => $this->status,
             'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
+         
             'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
+            
         ]);
 
         $query->andFilterWhere(['like', 'imei_no', $this->imei_no])

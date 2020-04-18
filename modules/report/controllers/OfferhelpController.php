@@ -95,6 +95,29 @@ class OfferhelpController extends Controller
         ]);
     }
 
+    public function actionActive($id)
+    {
+        $model= $this->findModel($id);
+        $model->status=1;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+    
+     public function actionInactive($id)
+    {
+        $model= $this->findModel($id);
+        $model->status=0;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+    
+    public function actionOfferdetail($offer_id)
+    {
+        $id=$offer_id;
+        $model= $this->findModel($id);
+        $request= \app\models\HelpinoutMapping::find()->where(['offer_help_id'=>$offer_id])->andWhere(['=', 'status', 1])->all();
+        return  $this->render('offerdetail',['model'=>$model,'request'=>$request]);
+    }
     /**
      * Deletes an existing OfferHelp model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -124,4 +147,4 @@ class OfferhelpController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-}
+    }

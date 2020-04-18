@@ -10,8 +10,8 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-//$base_url = 'http://3.7.52.176:8080';
-$url = $base_url . '/api/v1/user/currentlocation/list';
+$base_url = 'http://3.7.52.176:8080';
+$url = $base_url . '/api/v1/mapping/delete';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $arr = [];
@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $arr['imei_no'] = $_POST['imei_no'];
     $arr['date_time'] = $_POST['date_time']; //"2020-04-04T13:39:27.397-05:30";
     $data_string = '{"app_id":"1","imei_no":"d31f70e57896db2b","app_version":"1.0","date_time":"2020-04-05T19:17:26.190+05:30","data":{"geo_location":"28.6442562,77.3617728","geo_accuracy":"23.001","time_zone":"Asia\/Kolkata"}}';
-// json_encode($arr);
 
+    $data_string = '{"app_id":"174","imei_no":"d31f70e57896db2b","app_version":"1.0","date_time":"2020-04-12T14:08:32.198+05:30","data":{"activity_uuid":"cc4c3ee4-28f2-4e70-acc9-254d1c8a78c9","activity_type":1,"offerer":[{"activity_uuid":"16cf6454-b0a8-4835-a69a-24913c8065f7"}],"time_zone":"Asia\/Kolkata"}}';
 
     //$arr['data'] = $_POST;
     //$arr['app_id'] = $_POST['app_id'];

@@ -40,14 +40,12 @@ class ApilogController extends Controller {
     public function actionIndex() {
         $searchModel = new ApiLogSearch();
         if (isset($_GET['id'])) {
-            $searchModel->app_id = $_GET['id'];
+            $searchModel->app_registration_id = $_GET['id'];
         }
 //        if (isset($_GET['user_id'])) {
 //            $searchModel->user_id = $_GET['user_id'];
 //        }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-       // $searchModel->app_option = \app\models\GenralModel::appoption($searchModel);
-
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
@@ -66,6 +64,24 @@ class ApilogController extends Controller {
             ]);
         } else {
             return $this->render('requestbody', [
+                        'searchModel' => $searchModel,
+                        'dataProvider' => $dataProvider,
+            ]);
+        }
+    }
+    
+    public function actionResponse($id) {
+        $searchModel = new ApiLogSearch();
+        $searchModel->id = $id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        if (\Yii::$app->request->isAjax) {
+            return $this->renderAjax('response', [
+                        'searchModel' => $searchModel,
+                        'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            return $this->render('response', [
                         'searchModel' => $searchModel,
                         'dataProvider' => $dataProvider,
             ]);

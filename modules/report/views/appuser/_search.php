@@ -39,21 +39,25 @@ $form = ActiveForm::begin([
 
         </div> 
          
-       <div class="col-md-3">
+       <div class="col-md-2">
            
             <?= $form->field($model, 'master_app_user_org_type')->dropDownList(ArrayHelper::map(\app\models\MasterAppUserOrganizationType::find()->all(), 'id', 'org_type'), ['prompt' => 'Select App User Org Type',]) ?>
         </div>
  <div class="col-md-2">
 
-            <?php echo $form->field($model, 'time_zone_offset') ?>
+              <?= $form->field($model, 'time_zone_offset')->dropDownList(ArrayHelper::map(\app\models\MasterTimezone::find()->select('offset')->distinct()->orderBy(['offset' => SORT_ASC])->all(), 'offset', 'offset'), ['prompt' => 'Select Time Zone Offset']) ?>
+
 
         </div> 
          <div class="col-md-2">
-
-            <?php echo $form->field($model, 'status')->dropDownList(['1'=>'Active','0'=>'Inactive'],['prompt'=>'Select Status']) ?>
-
+ <label for='status'>Status</label>
+            <select class="form-control" name="AppUserSearch[status]">
+                <option value=''>Select Status</option>
+                <option value="1" class="active">Active</option>
+                <option value="0" class="inactive">Inactive</option>
+            </select>
         </div> 
-<div class="col-md-2"><br>
+        <div class="col-md-2"><br>
 
         <div class="form-group" style="margin-top:2px;">
             <?= Html::submitButton('<i class="fa fa-search"></i>Search', ['class' => 'btn btn-primary btn-sm']) ?>
@@ -70,3 +74,17 @@ $form = ActiveForm::begin([
 <?php ActiveForm::end(); ?>
 
 <!--</div>-->
+<!--</div>-->
+<style>
+ [attr]
+/* {
+     color:green;
+ }
+*/    
+.active{
+        color:rgb(0, 255, 0);
+    }
+    .inactive{
+        color:#FF5733 ;
+    }
+    </style>

@@ -10,7 +10,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-//$base_url = 'http://3.7.52.176:8080';
+$base_url = 'http://3.7.52.176:8080';
 $url = $base_url . '/api/v1/user/register';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         "app_version": "1.0",
         "time_zone": "Asia\/Kolkata",
         "country_code": "+91",
-        "mobile_no": "88005792115",
+        "mobile_no": "9894234890",
         "first_name": "Avneesh",
         "last_name": "Kumar",
         "mobile_no_visibility": 1,

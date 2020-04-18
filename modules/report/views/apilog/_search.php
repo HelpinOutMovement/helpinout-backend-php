@@ -58,6 +58,16 @@ use kartik\depdrop\DepDrop;
     ?>
 
     <!--            </div>-->
+    
+    <div class="col-md-2">
+       <?php if (isset($_GET['mobile_no'])) {
+            $model->mobile= $_GET['mobile_no'];
+        } ?>
+        <?php echo $form->field($model, 'mobile')->textInput(['maxlength' => true, 'placeholder' => 'Enter Mobile No', 'class' => 'form-control form-control-sm'])->label(false); ?>
+    </div>
+    <div class="col-md-2">
+        <?php echo $form->field($model, 'app_registration_id')->textInput(['maxlength' => true, 'placeholder' => 'App Id', 'class' => 'form-control form-control-sm'])->label(false); ?>
+    </div>
     <div class="col-md-2">
         <?php echo $form->field($model, 'app_version')->dropDownList(\yii\helpers\ArrayHelper::map(\app\models\AppRegistration::find()->all(), 'app_version', 'app_version'), ['prompt' => 'Select App Version'])->label(false) ?>
     </div>

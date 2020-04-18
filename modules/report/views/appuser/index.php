@@ -44,8 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?=
                     GridView::widget([
                         'dataProvider' => $dataProvider,
-                        'summaryOptions' => ['class' => 'summary col-sm-6 dataTables_info'],
-                        'layout' => "{items}\n{summary}{pager}",
+                        'layout' => "{pager}\n{summary}\n{items}",
+                        'tableOptions' => ['class' => 'table table-hover'],
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'width: 3%']],
                             [
@@ -54,7 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                    return $model->first_name != null ? $model->user : '-';
+//                                    return $model->first_name != null ? $model->user : '-';
+                                    return Html::a($model->first_name != null ? $model->username : '-', ['/report/appuser/detail?id=' . $model->id], ['data-pjax' => "0", 'class' => 'underlinelink']);
                                 }
                             ],
                             [
@@ -66,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->country_code != null ? $model->country_code : '-';
                                 }
                             ],
-                                    [
+                            [
                                 'attribute' => 'Mobile No.',
                                 'enableSorting' => false,
                                 'format' => 'raw',
@@ -149,6 +150,23 @@ $this->params['breadcrumbs'][] = $this->title;
                                     }
                                 }
                             ],
+                            [
+                                'attribute' => 'Action',
+                                'enableSorting' => false,
+                                'format' => 'raw',
+//                                'header' => 'App Version',
+                                'value' => function($model) {
+                                    if ($model->status) {
+                                        return Html::a('Make Inactive', ['/report/appuser/inactive?id=' . $model->id], ['data-pjax' => "0", 'class' => 'btn btn-xs btn-default btn-danger', 'data-confirm' => 'are you sure to inactive this ? ']) . '';
+
+//                           
+                                    } else {
+                                        return Html::a('Make Active', ['/report/appuser/active?id=' . $model->id], ['data-pjax' => "0", 'class' => 'btn btn-xs btn-default btn-primary', 'data-confirm' => 'are you sure to active this ?']) . '';
+
+//                           
+                                    }
+                                }
+                            ],
 //                         
 //                            
                         ],
@@ -162,3 +180,23 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 
+<style>
+    /*    .active{
+            color:rgb(0, 255, 0);
+        }
+        .inactive{
+            color:rgb(0, 255, 0);
+        }*/
+    .btn-primary
+    {
+        color:#fff;
+    }
+    .btn-danger
+    {
+        color:#fff;
+    }
+/*    .underlinelink
+    {
+        color:#000;
+    }*/
+</style>

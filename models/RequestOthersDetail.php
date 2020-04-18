@@ -13,21 +13,19 @@ use Yii;
  * @property int|null $quantity
  * @property int $status
  */
-class RequestOthersDetail extends \yii\db\ActiveRecord
-{
+class RequestOthersDetail extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'request_others_detail';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['request_help_id'], 'required'],
             [['request_help_id', 'quantity', 'status'], 'integer'],
@@ -38,8 +36,7 @@ class RequestOthersDetail extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'request_help_id' => 'Request Help ID',
@@ -48,4 +45,5 @@ class RequestOthersDetail extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
 }

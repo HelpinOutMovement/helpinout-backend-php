@@ -13,21 +13,19 @@ use Yii;
  * @property int|null $quantity
  * @property int $status
  */
-class RequestShelterDetail extends \yii\db\ActiveRecord
-{
+class RequestShelterDetail extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'request_shelter_detail';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['request_help_id'], 'required'],
             [['request_help_id', 'quantity', 'status'], 'integer'],
@@ -38,8 +36,7 @@ class RequestShelterDetail extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'request_help_id' => 'Request Help ID',
@@ -48,4 +45,5 @@ class RequestShelterDetail extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
 }

@@ -22,21 +22,19 @@ use Yii;
  * @property int $status
  * @property int $parent_id
  */
-class AppUserHistory extends \yii\db\ActiveRecord
-{
+class AppUserHistory extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'app_user_history';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'first_name', 'last_name', 'parent_id'], 'required'],
             [['time_zone_offset'], 'safe'],
@@ -52,8 +50,7 @@ class AppUserHistory extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'time_zone' => 'Time Zone',

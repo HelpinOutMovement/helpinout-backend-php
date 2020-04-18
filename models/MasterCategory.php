@@ -11,21 +11,19 @@ use Yii;
  * @property string $category_name
  * @property int $status
  */
-class MasterCategory extends \yii\db\ActiveRecord
-{
+class MasterCategory extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'master_category';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['category_name'], 'required'],
             [['status'], 'integer'],
@@ -36,8 +34,7 @@ class MasterCategory extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'category_name' => 'Category Name',

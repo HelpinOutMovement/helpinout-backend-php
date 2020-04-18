@@ -13,21 +13,19 @@ use Yii;
  * @property int|null $quantity
  * @property int $status
  */
-class OfferMedicineDetail extends \yii\db\ActiveRecord
-{
+class OfferMedicineDetail extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'offer_medicine_detail';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['offer_help_id'], 'required'],
             [['offer_help_id', 'quantity', 'status'], 'integer'],
@@ -38,8 +36,7 @@ class OfferMedicineDetail extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'offer_help_id' => 'Request Offer ID',
@@ -48,4 +45,5 @@ class OfferMedicineDetail extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
 }

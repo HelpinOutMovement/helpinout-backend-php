@@ -157,26 +157,113 @@ class UserController extends Controller {
 
         $this->response['data']["offers"] = array();
         foreach ($offers as $offer) {
-            array_push($this->response['data']["offers"], $offer->detail);
+            array_push($this->response['data']["offers"], $offer->getDetail(true, false, true));
         }
 
         $requests = RequestHelp::find()->where(['app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id, 'status' => '1'])->orderBy(' created_at desc')->all();
         $this->response['data']["requests"] = array();
         foreach ($requests as $request) {
-            array_push($this->response['data']["requests"], $request->detail);
+            array_push($this->response['data']["requests"], $request->getDetail(true, false, true));
         }
         $response->data = $this->response;
         return $this->response;
     }
 
-    public function actionCurrentlocation() {
+    public function actionLocationrequestersummary() {
         $response = \Yii::$app->response;
 
+        $location_lat_lng = explode(",", $this->data_json['geo_location']);
+        $lat = $location_lat_lng[0];
+        $lng = $location_lat_lng[1];
+        $range = isset($this->data_json['radius']) ? $this->data_json['radius'] : 50;
+        $range = round(($range / 1000) * 0.95, 2);
+        $earth_radius = 6371;
 
-        $this->response['data'] = '{}';
+        $maxlat = $lat + rad2deg($range / $earth_radius);
+        $minlat = $lat - rad2deg($range / $earth_radius);
+
+        $maxlng = $lng + rad2deg($range / $earth_radius / cos(deg2rad($lat)));
+        $minlng = $lng - rad2deg($range / $earth_radius / cos(deg2rad($lat)));
+
+        $temp = array();
+
+        for ($i = 0; $i < 9; $i++) {
+            $count = RequestHelp::find()->where(['master_category_id' => $i, 'status' => '1'])->count();
+
+            $near = RequestHelp::find()->where(['master_category_id' => $i, 'status' => '1'])
+                            ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
+                            ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('id desc')->count();
+            $temp[] = ['activity_category' => $i, 'total' => $count, 'near' => $near];
+        }
+
+        $this->response['data'] = $temp;
         $response->data = $this->response;
         return $this->response;
     }
+
+    public function actionLocationsuggestion() {
+        $response = \Yii::$app->response;
+
+        $location_lat_lng = explode(",", $this->data_json['geo_location']);
+        $lat = $location_lat_lng[0];
+        $lng = $location_lat_lng[1];
+        $range = isset($this->data_json['radius']) ? $this->data_json['radius'] : 50;
+        $range = round(($range / 1000) * 0.95, 2);
+        $earth_radius = 6371;
+
+        $maxlat = $lat + rad2deg($range / $earth_radius);
+        $minlat = $lat - rad2deg($range / $earth_radius);
+
+        $maxlng = $lng + rad2deg($range / $earth_radius / cos(deg2rad($lat)));
+        $minlng = $lng - rad2deg($range / $earth_radius / cos(deg2rad($lat)));
+
+
+        //$q = WoPdv::find()->where(['between', 'wo_pdvLat', $minlat, $maxlat])->andWhere(['between', 'wo_pdvLong', $minlng, $maxlng]);
+        //$q->select(['*',"ROUND((((acos(sin((".$lat."*pi()/180)) * sin((`wo_pdvLat`*pi()/180))+cos((".$lat."*pi()/180)) * cos((`wo_pdvLat`*pi()/180)) * cos(((".$lng."- `wo_pdvLong`)*pi()/180))))*180/pi())*60*1.1515*1.609344),2) as distance"]);//distance in km 
+        //$q->having('distance <='.$range);
+        //$q->orderBy('distance');       
+        //// echo $q->createCommand()->getRawSql();die();
+        //$POSlist=$q->all();
+
+        $offerers = OfferHelp::find()->where(['status' => '1'])
+                        ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
+                        ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('offer_help.id desc')->limit(8)->all();
+        $this->response['data']["offers"] = array();
+        foreach ($offerers as $offer) {
+            $helpinout_mapping = \app\models\HelpinoutMapping::findOne(['offer_help_id' => $offer->id, 'offer_app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id]);
+            if ($helpinout_mapping == '')
+                array_push($this->response['data']["offers"], $offer->getDetail(false, true));
+
+            if (count($this->response['data']["offers"]) > 4)
+                break;
+        }
+
+        $requests = RequestHelp::find()->where(['status' => '1'])
+                        ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
+                        ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('id desc')->limit(8)->all();
+        $this->response['data']["requests"] = array();
+        foreach ($requests as $request) {
+            $helpinout_mapping = \app\models\HelpinoutMapping::findOne(['request_help_id' => $request->id, 'request_app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id]);
+            if ($helpinout_mapping == '')
+                array_push($this->response['data']["requests"], $request->getDetail(false, true));
+
+            if (count($this->response['data']["requests"]) > 4)
+                break;
+        }
+
+        //$this->response['data'] = '{}';
+        $response->data = $this->response;
+        return $this->response;
+    }
+
+//    public function actionCurrentlocation() {
+//        $response = \Yii::$app->response;
+//
+//
+//        $this->response['data'] = '{}';
+//        $response->data = $this->response;
+//        return $this->response;
+//    }
 
     public function actionUpdategoogletoken() {
         $user = \Yii::$app->user->identity;

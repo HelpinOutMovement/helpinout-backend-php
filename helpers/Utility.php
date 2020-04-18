@@ -34,14 +34,6 @@ class Utility {
         return $returnMsg;
     }
 
-    public static function convertDateTimeToPBOFormat($datetime_mysql = null, $datetime_php = null) {
-        if ($datetime_mysql != null) {
-            $oDate = new \DateTime($datetime_mysql);
-            $sDate = $oDate->format("d/m/Y h:i A");
-        }
-        return $sDate;
-    }
-
     public static function convertDateTimetoTZFormat($date_time, $time_zone_offset) {
         //echo $time_zone_offset." ".strtotime($time_zone_offset);
         if ($time_zone_offset < 0)

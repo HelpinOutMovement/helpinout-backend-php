@@ -26,21 +26,19 @@ use Yii;
  * @property int $status
  * @property int $parent_id
  */
-class RequestHelpHistory extends \yii\db\ActiveRecord
-{
+class RequestHelpHistory extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'request_help_history';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['app_user_id', 'api_log_id', 'request_uuid', 'master_category_id', 'no_of_items', 'location', 'lat', 'lng', 'accuracy', 'address', 'datetime', 'time_zone_offset', 'created_at', 'updated_at', 'parent_id'], 'required'],
             [['app_user_id', 'api_log_id', 'master_category_id', 'no_of_items', 'accuracy', 'payment', 'created_at', 'updated_at', 'status', 'parent_id'], 'integer'],
@@ -55,8 +53,7 @@ class RequestHelpHistory extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'app_user_id' => 'App User ID',
@@ -78,4 +75,5 @@ class RequestHelpHistory extends \yii\db\ActiveRecord
             'parent_id' => 'Parent ID',
         ];
     }
+
 }

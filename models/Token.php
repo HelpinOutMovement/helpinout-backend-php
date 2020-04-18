@@ -33,7 +33,7 @@ class Token extends ActiveRecord {
     const TYPE_RECOVERY = 1;
     const TYPE_CONFIRM_NEW_EMAIL = 2;
     const TYPE_CONFIRM_OLD_EMAIL = 3;
-     const TYPE_RECOVERY_ITI_EMAIL = 4;
+    const TYPE_RECOVERY_ITI_EMAIL = 4;
 
     /** @var \dektrium\user\Module */
     protected $module;
@@ -65,16 +65,15 @@ class Token extends ActiveRecord {
             case self::TYPE_CONFIRM_OLD_EMAIL:
                 $route = '/user/settings/confirm';
                 break;
-             case self:: TYPE_RECOVERY_ITI_EMAIL:
+            case self:: TYPE_RECOVERY_ITI_EMAIL:
                 $route = '/user/recoveryiti/reset';
                 break;
-           
+
             default:
                 throw new \RuntimeException;
         }
 
         return Url::to([$route, 'id' => $this->user_id, 'code' => $this->code], true);
-   
     }
 
     /**
@@ -90,7 +89,7 @@ class Token extends ActiveRecord {
             case self::TYPE_RECOVERY:
                 $expirationTime = $this->module->recoverWithin;
                 break;
-             case self::TYPE_RECOVERY_ITI_EMAIL:
+            case self::TYPE_RECOVERY_ITI_EMAIL:
                 $expirationTime = $this->module->recoverWithin;
                 break;
             default:
