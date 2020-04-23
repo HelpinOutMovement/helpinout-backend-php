@@ -21,6 +21,9 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
         ],
+        'dashboard' => [
+            'class' => 'app\modules\dashboard\Module',
+        ],
           'report' => [
             'class' => 'app\modules\report\Module',
         ],
@@ -169,6 +172,10 @@ $config = [
             // 'username' => 'root',
             'password' => '',
             'charset' => 'utf8',
+        ],
+        'firebaseNotification' => [
+            'class' => 'app\components\notification\GoogleFirebase',
+            'firebase_api_key' => 'API_KEY',
         ],
     ],
     'params' => $params,

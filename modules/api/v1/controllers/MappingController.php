@@ -79,7 +79,7 @@ class MappingController extends Controller {
             $helpinout_mapping->save();
             //}
 
-            GenralModel::genrateNotification(NULL, $model_offer_help->id, GenralModel::NOTIFICATION_OFFER_CANCELLED);
+            GenralModel::genrateNotification($model_request_help->id, $model_offer_help->id, GenralModel::NOTIFICATION_REQUEST_CANCELLED, $model_offer_help->app_user_id, $model_offer_help->master_category_id);
             $this->response['data'] = $model_request_help->getDetail(false, false, true);
         } else if ($this->data_json['activity_type'] == GenralModel::HELP_TYPE_OFFER) {
             $model_offer_help = OfferHelp::findOne(['offer_uuid' => $this->data_json['activity_uuid']]);
@@ -94,7 +94,7 @@ class MappingController extends Controller {
             $helpinout_mapping->save();
             //}
 
-            GenralModel::genrateNotification($model_request_help->id, NULL, GenralModel::NOTIFICATION_REQUEST_CANCELLED);
+            GenralModel::genrateNotification($model_request_help->id, $model_offer_help->id, GenralModel::NOTIFICATION_OFFER_CANCELLED, $model_request_help->app_user_id, $model_request_help->master_category_id);
             $this->response['data'] = $model_offer_help->getDetail(false, false, true);
         }
 

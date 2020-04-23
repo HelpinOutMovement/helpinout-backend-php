@@ -171,6 +171,9 @@ class RequestHelp extends \yii\db\ActiveRecord {
                 unset($ac_d['id']);
                 unset($ac_d['request_help_id']);
                 unset($ac_d['status']);
+                if (isset($ac_d['quantity'])) {
+                    $ac_d['quantity'] == null || $ac_d['quantity'] == "null" ? "" : $ac_d['quantity'];
+                }
                 $return['activity_detail'][] = $ac_d;
             }
         }

@@ -188,11 +188,14 @@ class UserController extends Controller {
         $temp = array();
 
         for ($i = 0; $i < 9; $i++) {
-            $count = RequestHelp::find()->where(['master_category_id' => $i, 'status' => '1'])->count();
+            $count = RequestHelp::find()->where(['master_category_id' => $i, 'status' => '1'])
+                    ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('id desc')
+                    ->count();
 
             $near = RequestHelp::find()->where(['master_category_id' => $i, 'status' => '1'])
-                            ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
-                            ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('id desc')->count();
+                    ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
+                    ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('id desc')
+                    ->count();
             $temp[] = ['activity_category' => $i, 'total' => $count, 'near' => $near];
         }
 

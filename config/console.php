@@ -10,7 +10,7 @@ $config = [
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@tests' => '@app/tests',
     ],
     'components' => [
@@ -25,16 +25,25 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
-    ],
-    'params' => $params,
-    /*
-    'controllerMap' => [
-        'fixture' => [ // Fixture generation command line.
-            'class' => 'yii\faker\FixtureController',
+        'db' => ['class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+            // 'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+        ],
+        'firebaseNotification' => [
+            'class' => 'app\components\notification\GoogleFirebase',
+            //'firebase_api_key' => 'API_KEY',
         ],
     ],
-    */
+    'params' => $params,
+        /*
+          'controllerMap' => [
+          'fixture' => [ // Fixture generation command line.
+          'class' => 'yii\faker\FixtureController',
+          ],
+          ],
+         */
 ];
 
 if (YII_ENV_DEV) {

@@ -373,11 +373,17 @@ class ActivityController extends Controller {
         if ($this->data_json['activity_type'] == GenralModel::HELP_TYPE_REQUEST) {
             $model_request_help = RequestHelp::findOne(['request_uuid' => $this->data_json['activity_uuid']]);
 
-            $offerers = OfferHelp::find()->join("left outer join", "helpinout_mapping", "offer_help.id = helpinout_mapping.offer_help_id  and offer_help.app_user_id = helpinout_mapping.offer_app_user_id")
+            $offerers = OfferHelp::find()->join("left outer join", "helpinout_mapping", "offer_help.id = helpinout_mapping.offer_help_id  and offer_help.app_user_id != helpinout_mapping.offer_app_user_id")
                             ->where(['master_category_id' => $model_request_help->master_category_id, 'offer_help.status' => '1'])
                             ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
                             ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])
                             ->andWhere("helpinout_mapping.offer_help_id is null")->orderBy('offer_help.id desc')->limit(5)->all();
+
+            $offerers = OfferHelp::find()->where(['master_category_id' => $model_request_help->master_category_id, 'status' => '1'])
+                            ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
+                            //->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])
+                            ->orderBy('id desc')->limit(5)->all();
+
             $this->response['data']["offers"] = array();
             foreach ($offerers as $offer) {
                 array_push($this->response['data']["offers"], $offer->getDetail(true, true));
@@ -385,11 +391,17 @@ class ActivityController extends Controller {
         } else if ($this->data_json['activity_type'] == GenralModel::HELP_TYPE_OFFER) {
             $model_offer_help = OfferHelp::findOne(['offer_uuid' => $this->data_json['activity_uuid']]);
 
-            $requests = RequestHelp::find()->join("left outer join", "helpinout_mapping", "request_help.id = helpinout_mapping.request_help_id  and request_help.app_user_id = helpinout_mapping.request_app_user_id")
+            $requests = RequestHelp::find()->join("left outer join", "helpinout_mapping", "request_help.id = helpinout_mapping.request_help_id  and request_help.app_user_id != helpinout_mapping.request_app_user_id")
                             ->where(['master_category_id' => $model_offer_help->master_category_id, 'request_help.status' => '1'])
                             ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
                             ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])
                             ->andWhere("helpinout_mapping.request_help_id is null")->orderBy('request_help.id desc')->limit(5)->all();
+
+            $requests = RequestHelp::find()->where(['master_category_id' => $model_offer_help->master_category_id, 'status' => '1'])
+                            ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
+                            //->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])
+                            ->orderBy('id desc')->limit(5)->all();
+
             $this->response['data']["requests"] = array();
             foreach ($requests as $request) {
                 array_push($this->response['data']["requests"], $request->getDetail(true, true));
@@ -411,7 +423,7 @@ class ActivityController extends Controller {
 
                 $model_offer_help = OfferHelp::findOne(['offer_uuid' => $offer['activity_uuid']]);
 
-                $helpinout_maping = HelpinoutMapping::findOne(['offer_help_id' => $model_offer_help->id, 'request_help_id' => $model_request_help->id]);
+                $helpinout_maping = HelpinoutMapping::findOne(['offer_help_id' => $model_offer_help->id, 'request_help_id' => $model_request_help->id, 'mapping_initiator' => $this->data_json['activity_type']]);
                 if ($helpinout_maping == '') {
                     $helpinout_maping = new HelpinoutMapping();
                     $helpinout_maping->offer_help_id = $model_offer_help->id;
@@ -427,7 +439,7 @@ class ActivityController extends Controller {
                         exit;
                     }
                 }
-                GenralModel::genrateNotification(NULL, $model_offer_help->id, GenralModel::NOTIFICATION_OFFER_ACCEPTED);
+                GenralModel::genrateNotification($model_request_help->id, $model_offer_help->id, GenralModel::NOTIFICATION_REQUEST_RECEIVED, $model_offer_help->app_user_id, $model_offer_help->master_category_id);
             }
             $this->response['data'] = $model_request_help->getDetail(false, false, true);
         } else if ($this->data_json['activity_type'] == GenralModel::HELP_TYPE_OFFER) {
@@ -437,7 +449,7 @@ class ActivityController extends Controller {
 
                 $model_request_help = RequestHelp::findOne(['request_uuid' => $request['activity_uuid']]);
 
-                $helpinout_maping = HelpinoutMapping::findOne(['offer_help_id' => $model_offer_help->id, 'request_help_id' => $model_request_help->id]);
+                $helpinout_maping = HelpinoutMapping::findOne(['offer_help_id' => $model_offer_help->id, 'request_help_id' => $model_request_help->id, 'mapping_initiator' => $this->data_json['activity_type']]);
                 if ($helpinout_maping == '') {
                     $helpinout_maping = new HelpinoutMapping();
                     $helpinout_maping->offer_help_id = $model_offer_help->id;
@@ -454,7 +466,7 @@ class ActivityController extends Controller {
                     }
                 }
 
-                GenralModel::genrateNotification($model_request_help->id, NULL, GenralModel::NOTIFICATION_REQUEST_ACCEPTED);
+                GenralModel::genrateNotification($model_request_help->id, $model_offer_help->id, GenralModel::NOTIFICATION_OFFER_RECEIVED, $model_request_help->app_user_id, $model_request_help->master_category_id);
             }
             $this->response['data'] = $model_offer_help->getDetail(false, false, true);
         }

@@ -100,6 +100,12 @@ class Notification extends \yii\db\ActiveRecord {
         $notification['activity_type'] = $this->activity_type;
         $notification['category_type'] = $this->master_category_id;
         $notification['activity_uuid'] = $this->activity_uuid;
+        if ($this->activity_type == GenralModel::HELP_TYPE_REQUEST) {
+            $notification['sender_name'] = $this->offerdetail->app_user->username;
+        } else if ($this->activity_type == GenralModel::HELP_TYPE_OFFER) {
+            $notification['sender_name'] = $this->requestdetail->app_user->username;
+        }
+        $notification['activity_uuid'] = $this->activity_uuid;
         $notification['action'] = $this->action;
         return $notification;
     }
