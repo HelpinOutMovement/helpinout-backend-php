@@ -31,3 +31,6 @@ tests/_support/_generated
 
 #vagrant folder
 /.vagrant
+
+# Production configuration: sensitive DB details
+config/prod.php
