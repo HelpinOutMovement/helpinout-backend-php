@@ -21,6 +21,9 @@ switch (strtolower($_SERVER['PWD'])) {
     case '/home/helpinout/beta':
         $config = require(__DIR__ . '/config/beta_console.php');
         break;
+    case '/home/webuser/programs/helpinout-backend-php':
+        $config = require(__DIR__ . '/config/prod_console.php');
+        break;
     default:
         //$config = require(__DIR__ . '/config/beta_console.php');
         //$config = require(__DIR__ . '/config/local_console_govind.php');
