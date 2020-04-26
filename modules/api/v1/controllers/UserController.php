@@ -230,7 +230,7 @@ class UserController extends Controller {
 
         $offerers = OfferHelp::find()->where(['status' => '1'])
                         ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
-                        ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('offer_help.id desc')->limit(8)->all();
+                        ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('offer_help.id desc')->limit(30)->all();
         $this->response['data']["offers"] = array();
         foreach ($offerers as $offer) {
             $helpinout_mapping = \app\models\HelpinoutMapping::findOne(['offer_help_id' => $offer->id, 'offer_app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id]);
@@ -243,7 +243,7 @@ class UserController extends Controller {
 
         $requests = RequestHelp::find()->where(['status' => '1'])
                         ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
-                        ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('id desc')->limit(8)->all();
+                        ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])->orderBy('id desc')->limit(30)->all();
         $this->response['data']["requests"] = array();
         foreach ($requests as $request) {
             $helpinout_mapping = \app\models\HelpinoutMapping::findOne(['request_help_id' => $request->id, 'request_app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id]);
