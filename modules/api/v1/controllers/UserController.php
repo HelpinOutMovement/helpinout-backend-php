@@ -235,7 +235,7 @@ class UserController extends Controller {
         foreach ($offerers as $offer) {
             $helpinout_mapping = \app\models\HelpinoutMapping::findOne(['offer_help_id' => $offer->id, 'offer_app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id]);
             if ($helpinout_mapping == '')
-                array_push($this->response['data']["offers"], $offer->getDetail(false, true));
+                array_push($this->response['data']["offers"], $offer->getDetail(false, false));
 
 //            if (count($this->response['data']["offers"]) > 15)
 //                break;
@@ -248,7 +248,7 @@ class UserController extends Controller {
         foreach ($requests as $request) {
             $helpinout_mapping = \app\models\HelpinoutMapping::findOne(['request_help_id' => $request->id, 'request_app_user_id' => \Yii::$app->controller->module->model_apilog->app_user_id]);
             if ($helpinout_mapping == '')
-                array_push($this->response['data']["requests"], $request->getDetail(false, true));
+                array_push($this->response['data']["requests"], $request->getDetail(false, false));
 
 //            if (count($this->response['data']["requests"]) > 15)
 //                break;
