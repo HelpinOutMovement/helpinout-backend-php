@@ -112,7 +112,7 @@ class Notification extends \yii\db\ActiveRecord {
 
     public function getToken() {
         $token = array();
-        $token[] = $this->app_user->activeapp->firebase_token;
+        $token[] = $this->app_user->activeapp != "" ? $this->app_user->activeapp->firebase_token : "";
         return $token;
     }
 
