@@ -10,7 +10,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-//$base_url = 'http://3.7.52.176:8080';
+$base_url = 'http://3.7.52.176:8080';
 $url = $base_url . '/api/v1/user/login';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {    
 
@@ -23,19 +23,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $data_string='{
     "app_id": "",
-    "imei_no": "c8e9ab2e1cce96bc",
-    "app_version": "1.0",
-    "date_time": "2020-04-13T16:55:16.798+05:30",
+    "imei_no": "d31f70e57896db2b",
+    "app_version": "1.9",
+    "date_time": "2020-05-06T12:18:41.449+05:30",
     "data": {
         "app_id": "",
-        "imei_no": "c8e9ab2e1cce96bc",
+        "imei_no": "d31f70e57896db2b",
         "os_type": "Android",
-        "manufacturer_name": "Google Pixel 2",
-        "os_version": "29",
-        "firebase_token": "caz9yRGcSI62NgpJMRj5T7:APA91bEI2oKXApN-iSBw_KWJkDPvrRy-J2yZfwkJqb2eYBK05AKMCTEd3VLg-StqSwVO3UmlX6NDFu_LzdMFAIyOr0zL5XOfbkjz_M_PjBQhJDv7-fqHt3jgrQO8NZJSJMi2cUu_MzqH",
-        "app_version": "1.0",
+        "manufacturer_name": "Xiaomi Redmi Note 8 Pro",
+        "os_version": "28",
+        "firebase_token": "eXv50autR-y6HcSkyQTMk5:APA91bENcAMoNMICRUfcS_XTU5GHxHqUqGRe_bjzDBGaxNu8PbeKuctPno8GbMrO7aJwXcd0whe8Jo6qrgwCzDEWSaeU05IoA12ojnpa54Vpy2aI9K1TwGIMcXD4AHIKHWHBi5ZyJ0tO",
+        "app_version": "1.9",
         "time_zone": "Asia\/Kolkata",
-        "date_time": "2020-04-14T16:55:16.840+05:30",
+        "date_time": "2020-05-06T12:18:41.580+05:30",
         "country_code": "+91",
         "mobile_no": "7303767448"
     }

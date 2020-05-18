@@ -70,6 +70,19 @@ use app\models\UserModel;
                            
                             'url' => ['/report/apilog'],
                         ],
+                         [
+                            'label' => 'Notification',
+                               'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+                           
+                            'url' => ['/report/notification'],
+                        ],
+                        
+                        [
+                            'label' => ' Log Email Offer Mapping Requests',
+                               'visible' => !Yii::$app->user->isGuest and ( isset(Yii::$app->user->identity) and ( Yii::$app->user->identity->role_id == UserModel::ROLE_SUPERADMIN or Yii::$app->user->identity->role_id == UserModel::ROLE_ADMIN)),
+                           
+                            'url' => ['/report/email-offer-mapping-request'],
+                        ],
                         
 //                        
                     ],

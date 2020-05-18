@@ -12,12 +12,16 @@ class GenralModel extends \yii\base\Model {
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
+    /**/
     const APP_USER_TYPE_INDIVIDUAL = 1;
     const APP_USER_TYPE_ORGANIZATION = 2;
+    /**/
     const HELP_TYPE_REQUEST = 1;
     const HELP_TYPE_OFFER = 2;
+    /**/
     const HELP_TYPE_REQUESTER = 1;
-    const HELP_TYPE_OFFERER = 1;
+    const HELP_TYPE_OFFERER = 2;
+    /**/
     const CATEGORY_OTHERS = 0;
     const CATEGORY_FOOD = 1;
     const CATEGORY_PEOPLE = 2;
@@ -27,6 +31,7 @@ class GenralModel extends \yii\base\Model {
     const CATEGORY_MEDICINES = 6;
     const CATEGORY_AMBULANCE = 7;
     const CATEGORY_MEDICAL_EQUIPMENT = 8;
+    /**/
     const NOTIFICATION_REQUEST_RECEIVED = 1;
     const NOTIFICATION_OFFER_RECEIVED = 2;
     const NOTIFICATION_REQUEST_CANCELLED = 3;
@@ -60,16 +65,16 @@ class GenralModel extends \yii\base\Model {
                 break;
         }
 
-        switch ($action) {
-            case GenralModel::NOTIFICATION_OFFER_CANCELLED:
-            case GenralModel::NOTIFICATION_REQUEST_CANCELLED:
-
-                $notification->status = -1;
-                $notification->save();
-                break;
-            default:
-                break;
-        }
+//        switch ($action) {
+//            case GenralModel::NOTIFICATION_OFFER_CANCELLED:
+//            case GenralModel::NOTIFICATION_REQUEST_CANCELLED:
+//
+//                $notification->status = -1;
+//                $notification->save();
+//                break;
+//            default:
+//                break;
+//        }
 
 //        if ($request_help_id != NULL) {
 //            $request_help = \app\models\RequestHelp::findOne($request_help_id);

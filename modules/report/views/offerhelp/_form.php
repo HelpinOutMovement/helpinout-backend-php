@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'offer_condition')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'offer_note')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'datetime')->textInput() ?>
 

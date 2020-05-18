@@ -89,15 +89,45 @@
                         <div class="row mt-4">
                             <div class="col-lg-6 col-md-6 col-sm-12 pr-0 pl-0 md-pad-left  sm-pad-right">
                                 <div class="map-wrapper">
-                                    <?php
+                                   <?php
                                     $result = [];
                                     $request_arr = [];
+
+
                                     foreach ($offer as $offers) {
-                                        $result[] = ['lat' =>(float) $offers->lat, 'long' =>(float) $offers->lng, 'address' => $offers->address];
+
+                                        if ($offers->master_category_id == 0) {
+                                            $category = "Others";
+                                        } elseif ($offers->master_category_id == 9) {
+                                            $category = 'Others';
+                                        } else {
+                                            $category = $offers->master_category_id != null ? $offers->category->category_name : '';
+                                        }
+
+                                        if ($offers->master_category_id == 2) {
+                                            $html = '';
+                                        } else if ($offers->master_category_id == 7) {
+                                            $html = '';
+                                        } else {
+                                            $html = '<ul>';
+                                            foreach ($offers->activity_detail as $detail) {
+                                                $html .= '<li>' . $detail->detail != null ? $detail->detail . ' (' . $detail->quantity . ')' . '<br>' : '' . "</li>";
+//                                      
+                                            }
+                                            $html .= "</ul>";
+                                        }
+                                       $result[] = ['lat' => (float) $offers->lat, 'long' => (float) $offers->lng, 'address' => '<b>Category</b> [ ' . $category . ']  ,<br><b> DateTime</b> [' . date("d-m-Y h:m:s", strtotime($offers->datetime)) . '] , <br> <b>Request Mapped By Me </b>[ ' . $offers->mappingoffer . '] ,<br> <b>Offer Recieved </b>[' . $offers->mappingrequest . '],<br> <b>Username (Mobile No)</b>[ ' . $offers->app_user->first_name.' '.$offers->app_user->last_name.' ('.$offers->app_user->country_code.' '.$offers->app_user->mobile_no. ') ],<br><b> Address</b>[ ' . $offers->address . ' ]'];
                                     }
                                     foreach ($request as $requests) {
-                                        $request_arr[] = ['lat' =>(float) $requests->lat, 'long' =>(float) $requests->lng, 'address' => $requests->address];
-                                    }
+                                        if ($requests->master_category_id == 0) {
+                                            $category = "Others";
+                                        } elseif ($requests->master_category_id == 9) {
+                                            $category = 'Others';
+                                        } else {
+                                            $category = $requests->master_category_id != null ? $requests->category->category_name : '';
+                                        }
+                                       $request_arr[] = ['lat' => (float) $requests->lat, 'long' => (float) $requests->lng, 'address' => '<b>Category</b> [ ' . $category . ']  ,<br><b> DateTime</b> [' . date("d-m-Y h:m:s", strtotime($requests->datetime)) . '] , <br> <b>Request Mapped By Me </b>[ ' . $requests->mappingoffer . '] ,<br> <b>Offer Recieved </b>[' . $requests->mappingrequest . '],<br> <b>Username (Mobile No)</b>[ ' . $requests->app_user->first_name.' '.$requests->app_user->last_name.' ('.$requests->app_user->country_code.' '.$requests->app_user->mobile_no. ') ],<br><b> Address</b>[ ' . $requests->address . ' ]'];
+                                     }
                                     ?>
 
                                     <script>
@@ -179,7 +209,7 @@
 
 
 
-                                            map.data.loadGeoJson('/india.geojson');
+                                            map.data.loadGeoJson('/world.geojson');
 
                                             for (i = 0; i < results.length; i++) {
 

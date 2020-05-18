@@ -23,6 +23,7 @@ class LoginRegisterForm extends Model {
     public $mobile_no_visibility;
     public $first_name;
     public $last_name;
+    public $profile_name;
     public $user_type;
     public $org_name;
     public $org_type;
@@ -50,15 +51,17 @@ class LoginRegisterForm extends Model {
      */
     public function rules() {
         return [
-            [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'first_name', 'last_name', 'firebase_token', 'imei_no', 'os_type', 'app_version', 'manufacturer_name', 'os_version', 'mobile_no_visibility', 'user_type'], 'required', 'on' => [LoginRegisterForm::SCENARIO_REGISTER]],
+            [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'first_name', 'last_name', 'profile_name', 'firebase_token', 'imei_no', 'os_type', 'app_version', 'manufacturer_name', 'os_version', 'mobile_no_visibility', 'user_type'], 'required', 'on' => [LoginRegisterForm::SCENARIO_REGISTER]],
             [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'firebase_token', 'imei_no', 'os_type', 'app_version', 'manufacturer_name', 'os_version',], 'required', 'on' => [LoginRegisterForm::SCENARIO_LOGIN]],
             [['mobile_no_visibility', 'user_type', 'org_type'], 'integer'],
             [['time_zone'], 'string', 'max' => 30],
             [['country_code'], 'string', 'max' => 10],
             [['mobile_no'], 'string', 'max' => 12],
             [['first_name', 'last_name'], 'string', 'max' => 60],
-            [['first_name', 'last_name', 'mobile_no_visibility', 'user_type'], 'required', 'on' => [LoginRegisterForm::SCENARIO_REGISTER]],
-            [['first_name', 'last_name', 'mobile_no_visibility', 'user_type'], 'required', 'on' => [LoginRegisterForm::SCENARIO_UPDATE]],
+            [['first_name', 'last_name', 'profile_name', 'mobile_no_visibility', 'user_type'], 'required', 'on' => [LoginRegisterForm::SCENARIO_REGISTER]],
+            [['first_name', 'last_name', 'profile_name', 'mobile_no_visibility', 'user_type'], 'required', 'on' => [LoginRegisterForm::SCENARIO_UPDATE]],
+            [['profile_name'], 'safe'],
+            [['profile_name'], 'string', 'max' => 125],
             [['org_name', 'org_division'], 'string', 'max' => 256],
             [['imei_no', 'os_type', 'app_version'], 'string', 'max' => 100],
             [['manufacturer_name', 'os_version'], 'string', 'max' => 150],
@@ -81,6 +84,7 @@ class LoginRegisterForm extends Model {
         $this->app_user->mobile_no_visibility = $this->mobile_no_visibility;
         $this->app_user->first_name = $this->first_name;
         $this->app_user->last_name = $this->last_name;
+        $this->app_user->profile_name = (isset($this->profile_name) && $this->profile_name != "" ) ? $this->profile_name : $this->first_name . " " . $this->last_name;
         $this->app_user->user_type = $this->user_type;
         $this->app_user->org_name = $this->org_name;
         $this->app_user->master_app_user_org_type = $this->org_type;
@@ -99,6 +103,7 @@ class LoginRegisterForm extends Model {
         $this->app_user->mobile_no_visibility = $this->mobile_no_visibility;
         $this->app_user->first_name = $this->first_name;
         $this->app_user->last_name = $this->last_name;
+        $this->app_user->profile_name = (isset($this->profile_name) && $this->profile_name != "" ) ? $this->profile_name : $this->first_name . " " . $this->last_name;
         $this->app_user->user_type = $this->user_type;
         $this->app_user->org_name = $this->org_name;
         $this->app_user->master_app_user_org_type = $this->org_type;

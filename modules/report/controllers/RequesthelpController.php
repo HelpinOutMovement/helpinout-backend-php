@@ -108,8 +108,9 @@ class RequesthelpController extends Controller {
     {
         $id=$request_id;
         $model= $this->findModel($id);
-        $offer=HelpinoutMapping::find()->where(['request_help_id'=>$request_id])->andWhere(['=', 'status', 1])->all();
-        return  $this->render('requestdetail',['model'=>$model,'offer'=>$offer]);
+        $offermapbyme=HelpinoutMapping::find()->where(['request_help_id'=>$request_id,'mapping_initiator'=>1])->andWhere(['=', 'status', 1])->all();
+        $offerrecieved=HelpinoutMapping::find()->where(['request_help_id'=>$request_id,'mapping_initiator'=>2])->andWhere(['=', 'status', 1])->all();
+        return  $this->render('requestdetail',['model'=>$model,'offermapbyme'=>$offermapbyme,'offerrecieved'=>$offerrecieved]);
     }
     /**
      * Deletes an existing RequestHelp model.

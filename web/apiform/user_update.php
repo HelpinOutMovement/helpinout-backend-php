@@ -10,7 +10,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-//$base_url = 'http://3.7.52.176:8080';
+$base_url = 'https://app.helpinout.org';
 $url = $base_url . '/api/v1/user/update';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $ch = curl_init($url);
     //curl_setopt ($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_PORT, 8080);
+    //curl_setopt($ch, CURLOPT_PORT, 8080);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
     curl_setopt($ch, CURLOPT_HEADER, true);

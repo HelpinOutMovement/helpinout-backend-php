@@ -22,16 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data_string = '{"app_id":"1","imei_no":"d31f70e57896db2b","app_version":"1.0","date_time":"2020-04-05T19:17:26.190+05:30","data":{"geo_location":"28.6442562,77.3617728","geo_accuracy":"23.001","time_zone":"Asia\/Kolkata"}}';
 
     $data_string = '{
-    "app_id": "366",
-    "imei_no": "3b59413302f524c9",
-    "app_version": "1.0",
-    "date_time": "2020-04-17T14:06:20.902+05:30",
+    "app_id": "656",
+    "imei_no": "637809f66112c7e4",
+    "app_version": "2.1",
+    "date_time": "2020-05-13T12:45:18.853+05:30",
     "data": {
         "activity_type": 1,
-        "activity_uuid": "8330f4b0-1584-448c-9136-daa3078a3cc0",
-        "geo_location": "13.0632327,77.6185138",
-        "geo_accuracy": "33.723",
-        "radius": 12122270.305
+        "activity_uuid": "1756cace-70e4-4a7c-ba99-2ef55cd0e42b",
+        "geo_location": "29.987283994022224,77.4908597767353",
+        "geo_accuracy": "1968.0",
+        "radius": 5744.8174
     }
 }';
 

@@ -15,6 +15,7 @@ use Yii;
  * @property int $mobile_no_visibility
  * @property string $first_name
  * @property string $last_name
+ * @property string $profile_name
  * @property int $user_type
  * @property string|null $org_name
  * @property int|null $master_app_user_org_type
@@ -36,13 +37,14 @@ class AppUserHistory extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'first_name', 'last_name', 'parent_id'], 'required'],
+            [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'first_name', 'last_name', 'profile_name', 'parent_id'], 'required'],
             [['time_zone_offset'], 'safe'],
             [['mobile_no_visibility', 'user_type', 'master_app_user_org_type', 'status', 'parent_id'], 'integer'],
             [['time_zone'], 'string', 'max' => 30],
             [['country_code'], 'string', 'max' => 10],
             [['mobile_no'], 'string', 'max' => 12],
             [['first_name', 'last_name'], 'string', 'max' => 60],
+            [['profile_name'], 'string', 'max' => 125],
             [['org_name', 'org_division'], 'string', 'max' => 256],
         ];
     }

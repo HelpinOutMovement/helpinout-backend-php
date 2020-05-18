@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'accuracy',
             'payment',
             'address',
-            'offer_condition',
+            'offer_note',
             'datetime',
             'time_zone_offset',
             'created_at',

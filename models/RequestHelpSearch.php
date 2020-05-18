@@ -16,7 +16,7 @@ class RequestHelpSearch extends RequestHelp {
      */
     public function rules() {
         return [
-            [['id', 'app_user_id', 'api_log_id', 'master_category_id', 'no_of_items', 'accuracy', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['id', 'app_user_id', 'master_category_id', 'no_of_items', 'accuracy', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
             [['request_uuid', 'location', 'address', 'datetime', 'time_zone_offset'], 'safe'],
             [['lat', 'lng'], 'number'],
         ];
@@ -47,7 +47,7 @@ class RequestHelpSearch extends RequestHelp {
             'sort' => [
                 'defaultOrder' => ['id' => SORT_DESC]
             ],
-            'pagination' => array('pageSize' => 50),
+            'pagination' => array('pageSize' => 100),
         ]);
 
         $this->load($params);
@@ -62,7 +62,6 @@ class RequestHelpSearch extends RequestHelp {
         $query->andFilterWhere([
             'id' => $this->id,
             'app_user_id' => $this->app_user_id,
-            'api_log_id' => $this->api_log_id,
             'master_category_id' => $this->master_category_id,
             'no_of_items' => $this->no_of_items,
             'lat' => $this->lat,

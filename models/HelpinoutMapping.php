@@ -11,11 +11,14 @@ use Yii;
  * @property int $id
  * @property int $request_help_id
  * @property int $offer_help_id
- * @property int $mapping_initiator 1=requester, 2=offerer
+ * @property int $mapping_initiator  1=requester, 2=offerer
  * @property int $request_app_user_id
  * @property int $offer_app_user_id
+ * @property float $distance
  * @property int|null $call_initiated
- * @property int|null $mapping_delete_by 1=requester, 2=offerer
+ * @property int|null $mapping_delete_by      1=requester, 2=offerer
+ * @property string $datetime
+ * @property string $time_zone_offset
  * @property int $created_at
  * @property int $updated_at
  * @property int $status
@@ -48,9 +51,11 @@ class HelpinoutMapping extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['request_help_id', 'offer_help_id', 'mapping_initiator', 'request_app_user_id', 'offer_app_user_id'], 'required'],
+            [['request_help_id', 'offer_help_id', 'mapping_initiator', 'request_app_user_id', 'offer_app_user_id', 'distance', 'time_zone_offset'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['request_help_id', 'offer_help_id', 'mapping_initiator', 'request_app_user_id', 'offer_app_user_id', 'call_initiated', 'mapping_delete_by', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['distance'], 'number'],
+            [['datetime', 'time_zone_offset'], 'safe'],
             [['request_help_id', 'offer_help_id', 'mapping_initiator'], 'unique', 'targetAttribute' => ['request_help_id', 'offer_help_id', 'mapping_initiator']],
         ];
     }
@@ -66,6 +71,8 @@ class HelpinoutMapping extends \yii\db\ActiveRecord {
             'mapping_initiator' => 'Request Mapping Initiator',
             'call_initiated' => 'Call Initiated',
             'mapping_delete_by' => 'Mapping Delete By',
+            'datetime' => 'Datetime',
+            'time_zone_offset' => 'Time Zone Offset',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'status' => 'Status',

@@ -101,9 +101,9 @@ class Notification extends \yii\db\ActiveRecord {
         $notification['category_type'] = $this->master_category_id;
         $notification['activity_uuid'] = $this->activity_uuid;
         if ($this->activity_type == GenralModel::HELP_TYPE_REQUEST) {
-            $notification['sender_name'] = $this->offerdetail->app_user->username;
+            $notification['sender_name'] = $this->offerdetail->app_user->profile_name;
         } else if ($this->activity_type == GenralModel::HELP_TYPE_OFFER) {
-            $notification['sender_name'] = $this->requestdetail->app_user->username;
+            $notification['sender_name'] = $this->requestdetail->app_user->profile_name;
         }
         $notification['activity_uuid'] = $this->activity_uuid;
         $notification['action'] = $this->action;
@@ -114,6 +114,11 @@ class Notification extends \yii\db\ActiveRecord {
         $token = array();
         $token[] = $this->app_user->activeapp != "" ? $this->app_user->activeapp->firebase_token : "";
         return $token;
+    }
+    
+    public function getCategory()
+    {
+        return $this->hasOne(\app\models\MasterCategory::classname(), ['id'=>'master_category_id']);
     }
 
 }
