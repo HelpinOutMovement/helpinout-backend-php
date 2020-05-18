@@ -438,7 +438,7 @@ class ActivityController extends Controller {
                 $offerers = OfferHelp::find()->select(['offer_help.*', 'distance' => new Expression('ST_distance( ' . new Expression('point(' . $model_request_help->lat . ' , ' . $model_request_help->lng . ' )') . ',location)')])->where(['master_category_id' => $model_request_help->master_category_id, 'status' => '1'])
                                 ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
                                 ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])
-                                ->orderBy('distance asc')->limit(10)->offset($sql_count)->all();
+                                ->orderBy('distance asc')->limit(30)->offset($sql_count)->all();
 
                 if (count($offerers) == 0)
                     break;
@@ -452,7 +452,7 @@ class ActivityController extends Controller {
                             $t['distance'] = \app\helpers\Utility::distance($model_offer_help->lat, $model_offer_help->lng, $model_request_help->lat, $model_request_help->lng, "K");
                             array_push($this->response['data']["offers"], $t);
                         }
-                        if (count($this->response['data']["offers"]) == 5)
+                        if (count($this->response['data']["offers"]) == 20)
                             break 2;
                     }
             }
@@ -473,7 +473,7 @@ class ActivityController extends Controller {
                 $requests = RequestHelp::find()->select(['request_help.*', 'distance' => new Expression('ST_distance( ' . new Expression('point(' . $model_offer_help->lat . ' , ' . $model_offer_help->lng . ' )') . ',location)')])->where(['master_category_id' => $model_offer_help->master_category_id, 'status' => '1'])
                                 ->andWhere(['between', 'lat', $minlat, $maxlat])->andWhere(['between', 'lng', $minlng, $maxlng])
                                 ->andWhere(['!=', 'app_user_id', \Yii::$app->controller->module->model_apilog->app_user_id])
-                                ->orderBy('distance asc')->limit(10)->offset($sql_count)->all();
+                                ->orderBy('distance asc')->limit(30)->offset($sql_count)->all();
                 if (count($requests) == 0)
                     break;
                 else
@@ -487,7 +487,7 @@ class ActivityController extends Controller {
                             array_push($this->response['data']["requests"], $t);
                         }
 
-                        if (count($this->response['data']["requests"]) == 5)
+                        if (count($this->response['data']["requests"]) == 20)
                             break 2;
                     }
             }
