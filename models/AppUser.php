@@ -21,6 +21,7 @@ use yii\db\ActiveRecord;
  * @property string|null $org_name
  * @property int|null $master_app_user_org_type
  * @property string|null $org_division
+ * @property string|null $ref_id
  * @property int $created_at
  * @property int $updated_at
  * @property int $status
@@ -63,6 +64,7 @@ class AppUser extends \yii\db\ActiveRecord {
             [['org_name', 'org_division'], 'string', 'max' => 256],
             [['country_code', 'mobile_no'], 'unique', 'targetAttribute' => ['country_code', 'mobile_no']],
             [['status'], 'default', 'value' => '1'],
+            [['ref_id'], 'string', 'max' => 60],
         ];
     }
 
@@ -84,6 +86,7 @@ class AppUser extends \yii\db\ActiveRecord {
             'org_name' => 'Org Name',
             'master_app_user_org_type' => 'Master App User Org Type',
             'org_division' => 'Org Division',
+            'ref_id' => 'Referance ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'status' => 'Status',

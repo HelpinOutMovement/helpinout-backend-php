@@ -27,11 +27,9 @@ CREATE TABLE `email_offer_mapping` (
   `status` int(1) NOT NULL
 );
 
-ALTER TABLE `email_offer_mapping`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `email_offer_mapping`  ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `email_offer_mapping`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `email_offer_mapping`  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 RENAME TABLE `email_offer_mapping` TO `log_email_offer_mapping_request`;
 
@@ -43,12 +41,12 @@ UPDATE `helpinout_mapping` SET `datetime`=from_unixtime(`created_at`) WHERE 1 ;
 
 
 
-UPDATE `request_help` SET `payment`=0 WHERE `payment` =1
-UPDATE `request_help` SET `payment`=1 WHERE `payment` =2
+UPDATE `request_help` SET `payment`=0 WHERE `payment` =1;
+UPDATE `request_help` SET `payment`=1 WHERE `payment` =2;
 
 
-UPDATE `offer_help` SET `payment`=0 WHERE `payment` =1
-UPDATE `offer_help` SET `payment`=1 WHERE `payment` =2
+UPDATE `offer_help` SET `payment`=0 WHERE `payment` =1;
+UPDATE `offer_help` SET `payment`=1 WHERE `payment` =2;
 
 
 ALTER TABLE `helpinout_mapping` ADD `distance` DECIMAL(8,2) NOT NULL AFTER `offer_app_user_id`;
@@ -60,3 +58,19 @@ ALTER TABLE `offer_help_history` DROP `api_log_id`;
 ALTER TABLE `request_help_history` DROP `api_log_id`;
 
 
+ALTER TABLE `notification` ADD INDEX(`app_user_id`);
+
+ALTER TABLE `notification` ADD INDEX `request_index` (`request_help_id`, `master_category_id`);
+
+ALTER TABLE `notification` ADD INDEX `offer_index` (`offer_help_id`, `master_category_id`);
+
+ALTER TABLE `notification` ADD INDEX(`action`);
+
+ALTER TABLE `notification` ADD INDEX(`status`);
+
+------------------------------------------
+
+
+ALTER TABLE `offer_help` ADD `ref_id` VARCHAR(60) NULL AFTER `offer_note`;
+
+ALTER TABLE `app_user` ADD `ref_id` VARCHAR(60) NULL AFTER `org_division`;

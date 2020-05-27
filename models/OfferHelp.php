@@ -21,6 +21,7 @@ use app\models\base\GenralModel;
  * @property int $payment 0=for free, 1=want money
  * @property string $address
  * @property string|null $offer_note
+ * @property string|null $ref_id
  * @property string $datetime
  * @property string $time_zone_offset
  * @property int $created_at
@@ -57,7 +58,7 @@ class OfferHelp extends \yii\db\ActiveRecord {
     public function rules() {
 
         return [
-            [['app_user_id',  'master_category_id', 'no_of_items', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['app_user_id', 'master_category_id', 'no_of_items', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
             [['offer_uuid', 'master_category_id', 'no_of_items', 'location', 'lat', 'lng', 'accuracy', 'address', 'datetime', 'time_zone_offset'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             //[['location'], 'string'],
@@ -66,6 +67,7 @@ class OfferHelp extends \yii\db\ActiveRecord {
             [['offer_uuid'], 'string', 'max' => 36],
             [['address', 'offer_note'], 'string', 'max' => 512],
             [['status'], 'default', 'value' => '1'],
+            [['ref_id'], 'string', 'max' => 60],
         ];
     }
 
@@ -86,6 +88,7 @@ class OfferHelp extends \yii\db\ActiveRecord {
             'payment' => 'Payment',
             'address' => 'Address',
             'offer_note' => 'Offer Note',
+            'ref_id' => 'Referance ID',
             'datetime' => 'Datetime',
             'time_zone_offset' => 'Time Zone Offset',
             'created_at' => 'Created At',
