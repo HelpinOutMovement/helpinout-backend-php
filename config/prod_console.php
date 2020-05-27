@@ -22,8 +22,19 @@ return (array_replace_recursive(
                     //'class' => 'app\components\notification\GoogleFirebase',
                     'firebase_api_key' => 'AAAAikKcjI4:APA91bGAPehF_Px6UG7BpSMga4isV6dnEPNYOIm3zKySw1XwNoSXnIRyas9bhOiVBiLEmCS5ITqm5LzbdOLe40WPCcVfIN6pwtHewlsENnAC0zcM7S1miUcCxLaNEyzv3yQF76dJCu4M',
                 ],
+                'mailSES' => [
+                    'class' => 'app\components\amazonses\Mailer',
+                    'access_key' => 'AKIAI6UPDYQL6DANTZKA',
+                    'secret_key' => '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',
+                    'host' => 'email.eu-west-1.amazonaws.com' // not required
+                ],
+
             ],
-            
-                )
+            'params' => [
+                'amazon_mail_enable' => TRUE,
+                'fromEmail' => ['admin@helpinout.org' => 'Admin HelpinOut'],
+                'sms_lane_enable' => FALSE,
+            ],
+           )
         ));
 ?>
