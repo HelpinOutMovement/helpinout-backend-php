@@ -31,6 +31,19 @@ class GenralModel extends \yii\base\Model {
     const CATEGORY_MEDICINES = 6;
     const CATEGORY_AMBULANCE = 7;
     const CATEGORY_MEDICAL_EQUIPMENT = 8;
+    const CATEGORY_VOLUNTEERS = 9;
+    const CATEGORY_FRUITS_VEGETABLES = 10;
+    const CATEGORY_TRANSPORT = 11;
+    const CATEGORY_ANIMAL_SUPPORT = 12;
+    const CATEGORY_GIVEAWAYS = 13;
+    const CATEGORY_PAID_WORK = 14;
+    /**/
+    const REQUEST_PAYMENT_CANNOT_PAY = 0;
+    const REQUEST_PAYMENT_CAN_PAY = 1;
+    const REQUEST_PAYMENT_GET_PAID = 11;
+    const OFFER_PAYMENT_FOR_FREE = 0;
+    const OFFER_PAYMENT_WANT_MONEY = 1;
+    const OFFER_PAYMENT_WILL_PAY = 11;
     /**/
     const NOTIFICATION_REQUEST_RECEIVED = 1;
     const NOTIFICATION_OFFER_RECEIVED = 2;
@@ -75,7 +88,6 @@ class GenralModel extends \yii\base\Model {
 //            default:
 //                break;
 //        }
-
 //        if ($request_help_id != NULL) {
 //            $request_help = \app\models\RequestHelp::findOne($request_help_id);
 //            $notification = New \app\models\Notification();

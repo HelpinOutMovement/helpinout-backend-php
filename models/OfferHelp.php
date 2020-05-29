@@ -157,6 +157,7 @@ class OfferHelp extends \yii\db\ActiveRecord {
                 return $this->hasMany(OfferOthersDetail::className(), ['offer_help_id' => 'id'])->where(['status' => 1]);
                 break;
             default:
+                return [];
         }
     }
 

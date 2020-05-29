@@ -155,6 +155,7 @@ class RequestHelp extends \yii\db\ActiveRecord {
                 return $this->hasMany(RequestOthersDetail::className(), ['request_help_id' => 'id'])->where(['status' => 1]);
                 break;
             default:
+                return [];
         }
     }
 
