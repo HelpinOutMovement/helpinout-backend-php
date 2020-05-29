@@ -34,6 +34,8 @@ tests/_support/_generated
 
 # Production configuration: sensitive DB details
 config/prod.php
+config/prod_console.php
 
 # Test configuration: sensitive DB details
 config/hiotest.php
+config/hiotest_console.php
