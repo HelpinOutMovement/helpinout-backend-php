@@ -39,8 +39,11 @@ class SendmailController extends Controller {
 
             //try {
 
-            $array_cat = ['0' => 'Others', '1' => 'Food', '2' => 'People', '3' => 'Shelter', '4' => 'Med PPE', '5' => 'Testing', '6' => 'Medicines', '7' => 'Ambulance', '8' => 'Medical Equipment'];
-            $array_pay = ['0' => 'No', '1' => 'Yes'];
+            $array_cat = ['0' => 'Others', '1' => 'Food', '2' => 'People', '3' => 'Shelter', '4' => 'Med PPE', '5' => 'Testing',
+                '6' => 'Medicines', '7' => 'Ambulance', '8' => 'Medical Equipment', '9' => 'Volunteers', '10' => 'Fruits/Vegetables',
+                '11' => 'Transport', '12' => 'Animal support', '13' => 'Giveaways', '14' => 'Paid Work'
+            ];
+            $array_pay = ['0' => 'No', '1' => 'Yes', '11' => 'Get Paid'];
 
             $array_offer = array();
 
