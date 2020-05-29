@@ -11,7 +11,6 @@ use app\models\base\GenralModel;
  *
  * @property int $id
  * @property int $app_user_id
- * @property int $api_log_id
  * @property string $offer_uuid
  * @property int $master_category_id
  * @property int $no_of_items
@@ -21,12 +20,14 @@ use app\models\base\GenralModel;
  * @property float $accuracy
  * @property int $payment 0=for free, 1=want money
  * @property string $address
- * @property string|null $offer_condition
+ * @property string|null $offer_note
+ * @property string|null $ref_id
  * @property string $datetime
  * @property string $time_zone_offset
  * @property int $created_at
  * @property int $updated_at
- * @property int $status
+ * @property int $
+ * @property int $distance
  */
 class OfferHelp extends \yii\db\ActiveRecord {
 
@@ -36,6 +37,8 @@ class OfferHelp extends \yii\db\ActiveRecord {
     public static function tableName() {
         return 'offer_help';
     }
+
+    public $distance;
 
     public function behaviors() {
         return [
@@ -55,15 +58,16 @@ class OfferHelp extends \yii\db\ActiveRecord {
     public function rules() {
 
         return [
-            [['app_user_id', 'api_log_id', 'master_category_id', 'no_of_items', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['api_log_id', 'offer_uuid', 'master_category_id', 'no_of_items', 'location', 'lat', 'lng', 'accuracy', 'address', 'datetime', 'time_zone_offset'], 'required'],
+            [['app_user_id', 'master_category_id', 'no_of_items', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['offer_uuid', 'master_category_id', 'no_of_items', 'location', 'lat', 'lng', 'accuracy', 'address', 'datetime', 'time_zone_offset'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             //[['location'], 'string'],
             [['lat', 'lng', 'accuracy'], 'number'],
             [['datetime', 'time_zone_offset'], 'safe'],
             [['offer_uuid'], 'string', 'max' => 36],
-            [['address', 'offer_condition'], 'string', 'max' => 512],
+            [['address', 'offer_note'], 'string', 'max' => 512],
             [['status'], 'default', 'value' => '1'],
+            [['ref_id'], 'string', 'max' => 60],
         ];
     }
 
@@ -74,7 +78,6 @@ class OfferHelp extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'app_user_id' => 'App User ID',
-            'api_log_id' => 'Api Log ID',
             'offer_uuid' => 'Offer Uuid',
             'master_category_id' => 'Master Category',
             'no_of_items' => 'No Of Items',
@@ -84,7 +87,8 @@ class OfferHelp extends \yii\db\ActiveRecord {
             'accuracy' => 'Accuracy',
             'payment' => 'Payment',
             'address' => 'Address',
-            'offer_condition' => 'Offer Condition',
+            'offer_note' => 'Offer Note',
+            'ref_id' => 'Referance ID',
             'datetime' => 'Datetime',
             'time_zone_offset' => 'Time Zone Offset',
             'created_at' => 'Created At',
@@ -111,7 +115,7 @@ class OfferHelp extends \yii\db\ActiveRecord {
     }
 
     public function getMapping() {
-        return $this->hasMany(HelpinoutMapping::className(), ['offer_help_id' => 'id'])->where(['status' => 1]);
+        return $this->hasMany(HelpinoutMapping::className(), ['offer_help_id' => 'id'])->where(['status' => 1])->orderBy("created_at desc");
     }
 
     public function add() {
@@ -166,7 +170,9 @@ class OfferHelp extends \yii\db\ActiveRecord {
         $return['activity_count'] = $this->no_of_items;
         $return['geo_location'] = $this->lat . "," . $this->lng;
         $return['status'] = $this->status;
-        $return['offer_condition'] = $this->offer_condition;
+        $return['offer_condition'] = $return['offer_note'] = $this->offer_note;
+        $return['pay'] = $this->payment;
+        //$return['distance'] = round($this->distance * 111, 2);
 
         if ($detail) {
             foreach ($this->activity_detail as $ac_d) {
@@ -191,7 +197,8 @@ class OfferHelp extends \yii\db\ActiveRecord {
                 $temp['request_detail'] = $mapping->requestdetail->getDetail(true, true, false);
                 $temp['status'] = $mapping->status;
                 $temp['mapping_initiator'] = $mapping->mapping_initiator;
-
+                $temp['mapping_time'] = $mapping->datetime;
+                $temp['distance'] = $mapping->distance;
                 if (isset($mapping->rate_report_for_requester))
                     $temp['rate_report'] = $mapping->rate_report_for_requester->detail;
                 else

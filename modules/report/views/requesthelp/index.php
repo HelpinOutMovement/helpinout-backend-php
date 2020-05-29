@@ -46,16 +46,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?=
                     GridView::widget([
                         'dataProvider' => $dataProvider,
-                       'layout' => "{pager}\n{summary}\n{items}",
+                        'layout' => "{pager}\n{summary}\n{items}",
                         'tableOptions' => ['class' => 'table table-hover'],
                         'columns' => [
 //                            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'width: 3%']],
                             [
                                 'attribute' => 'id',
+                                'contentOptions' => ['style' => 'width: 3%'],
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                    return Html::a($model->id != null ? $model->id : '',['/report/requesthelp/requestdetail?request_id=' . $model->id], ['data-pjax' => "0", 'class' => 'underlinelink']);
+                                    return Html::a($model->id != null ? $model->id : '', ['/report/requesthelp/requestdetail?request_id=' . $model->id], ['data-pjax' => "0", 'class' => 'underlinelink']);
                                 }
                             ],
                             [
@@ -64,25 +65,38 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                    return Html::a($model->app_user_id != null ? $model->app_user->first_name.' '.$model->app_user->last_name.'<br>('.$model->app_user->country_code.$model->app_user->mobile_no.')' : '',['/report/appuser/detail?id=' . $model->app_user_id], ['data-pjax' => "0", 'class' => 'underlinelink']);
+                                    return Html::a($model->app_user_id != null ? $model->app_user->first_name . ' ' . $model->app_user->last_name . '<br>(' . $model->app_user->country_code . $model->app_user->mobile_no . ')' : '', ['/report/appuser/detail?id=' . $model->app_user_id], ['data-pjax' => "0", 'class' => 'underlinelink']);
                                 }
                             ],
-                                    [
+                            [
+                                'attribute' => 'Self Else',
+                                'enableSorting' => false,
+                                'format' => 'raw',
+//                              
+                                'value' => function($model) {
+                                    if ($model->self_else == '1') {
+                                        return "Self";
+                                    } else {
+                                        return "Offer";
+                                    }
+                                }
+                            ],
+                            [
                                 'attribute' => 'Offer Mapped By Me',
                                 'contentOptions' => ['style' => 'width: 10%'],
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                    return $model->id != null ? $model->mappingoffer:'';
+                                    return $model->id != null ? $model->mappingoffer : '';
                                 }
                             ],
-                                    [
+                            [
                                 'attribute' => 'Offer Recieved',
                                 'contentOptions' => ['style' => 'width: 10%'],
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                     return $model->id != null ? $model->mappingrequest:'';
+                                    return $model->id != null ? $model->mappingrequest : '';
                                 }
                             ],
                             [

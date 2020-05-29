@@ -30,6 +30,7 @@ class AppAsset extends AssetBundle {
         'main_assets/css/slick.css',
         'main_assets/css/slick-theme.css',
         'https://cdn.thinkgeo.com/vectormap-js/1.0.2/vectormap.css',
+        'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',
        
         
     ];

@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                    return Html::a($model->id != null ? $model->id : '',['/report/offerhelp/offerdetail?offer_id=' . $model->id], ['data-pjax' => "0", 'class' => 'underlinelink']);
+                                    return Html::a($model->id != null ? $model->id : '', ['/report/offerhelp/offerdetail?offer_id=' . $model->id], ['data-pjax' => "0", 'class' => 'underlinelink']);
                                 }
                             ],
                             [
@@ -66,25 +66,25 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                    return Html::a($model->app_user_id != null ? $model->app_user->first_name.' '.$model->app_user->last_name.'<br>('.$model->app_user->country_code.$model->app_user->mobile_no.')' : '',['/report/appuser/detail?id=' . $model->app_user_id], ['data-pjax' => "0", 'class' => 'underlinelink']);
+                                    return Html::a($model->app_user_id != null ? $model->app_user->first_name . ' ' . $model->app_user->last_name . '<br>(' . $model->app_user->country_code . $model->app_user->mobile_no . ')' : '', ['/report/appuser/detail?id=' . $model->app_user_id], ['data-pjax' => "0", 'class' => 'underlinelink']);
                                 }
                             ],
-                                    [
+                            [
                                 'attribute' => 'Request Mapped By Me',
                                 'contentOptions' => ['style' => 'width: 10%'],
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                    return $model->id != null ? $model->mappingoffer:'';
+                                    return $model->id != null ? $model->mappingoffer : '';
                                 }
                             ],
-                                    [
+                            [
                                 'attribute' => 'Offer Recieved',
                                 'contentOptions' => ['style' => 'width: 10%'],
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                     return $model->id != null ? $model->mappingrequest:'';
+                                    return $model->id != null ? $model->mappingrequest : '';
                                 }
                             ],
                             [
@@ -93,8 +93,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'enableSorting' => false,
                                 'format' => 'raw',
                                 'value' => function($model) {
-                                    return $model->master_category_id != null ? $model->category->category_name : 'Others';
-                                }
+                                     if ($model->master_category_id == 0) {
+                                        return "Others";
+                                    } elseif ($model->master_category_id == 9) {
+                                        return 'Others';
+                                    } else {
+                                        return $model->master_category_id != null ? $model->category->category_name : '';
+                                    } }
                             ],
 //                            [
 //                                'attribute' => 'no_of_items',
@@ -146,12 +151,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 }
                             ],
                             [
-                                'attribute' => 'offer_condition',
+                                'attribute' => 'offer_note',
                                 'enableSorting' => false,
                                 'format' => 'raw',
 //                                'header' => 'App Version',
                                 'value' => function($model) {
-                                    return $model->offer_condition != null ? $model->offer_condition : '';
+                                    return $model->offer_note != null ? $model->offer_note : '';
                                 }
                             ],
 //                            [

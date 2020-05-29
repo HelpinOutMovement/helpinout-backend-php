@@ -78,20 +78,22 @@ class Module extends \yii\base\Module {
      * @var type 
      */
     public $api_urls = [
-        'api/v1/user/register',
-        'api/v1/user/login',
-        'api/v1/user/update',
-        //'api/v1/user/currentlocation',
-        'api/v1/user/locationsuggestion',
-        'api/v1/user/locationrequestersummary',
-        'api/v1/user/pastactivity',
-        'api/v1/activity/suggestions',
         'api/v1/activity/add',
         'api/v1/activity/delete',
+        'api/v1/activity/detail',
         'api/v1/activity/mapping',
+        'api/v1/activity/newmatches',
+        'api/v1/activity/suggestions',
         'api/v1/mapping/rating',
         'api/v1/mapping/call',
         'api/v1/mapping/delete',
+        'api/v1/user/emailoffermapping',
+        'api/v1/user/locationrequestersummary',
+        'api/v1/user/locationsuggestion',
+        'api/v1/user/login',
+        'api/v1/user/pastactivity',
+        'api/v1/user/register',
+        'api/v1/user/update',
 //        'api/v1/user/apilogin',
 //        'api/v1/user/itilist',
 //        'api/v1/user/dashboard',
@@ -186,7 +188,7 @@ class Module extends \yii\base\Module {
 
         $this->model_apilog->app_registration_id = isset($this->post_json['app_id']) ? (int) $this->post_json['app_id'] : 0;
         $this->model_apilog->save(FALSE);
-
+//echo $this->post_json['date_time']; exit;
         $parsed_date_time = date_parse($this->post_json['date_time']);
         //$timezone_name = timezone_name_from_abbr("", $parsed_date_time['zone'], 0); // NB: Offset in seconds! 
 //        if ($timezone_name == "") {

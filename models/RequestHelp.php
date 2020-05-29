@@ -12,7 +12,7 @@ use app\models\MasterCategory;
  *
  * @property int $id
  * @property int $app_user_id
- * @property int $api_log_id
+ * @property int $self_else
  * @property string $request_uuid
  * @property int $master_category_id
  * @property int $no_of_items
@@ -20,8 +20,9 @@ use app\models\MasterCategory;
  * @property float $lat
  * @property float $lng
  * @property float $accuracy
- * @property int $payment 0=canot pay, 1=can pay
+ * @property int $payment 0=cannot pay, 1=can pay
  * @property string $address
+ * @property string|null $request_note
  * @property string $datetime
  * @property string $time_zone_offset
  * @property int $created_at
@@ -36,6 +37,8 @@ class RequestHelp extends \yii\db\ActiveRecord {
     public static function tableName() {
         return 'request_help';
     }
+    
+    public $distance;
 
     public function behaviors() {
         return [
@@ -54,14 +57,14 @@ class RequestHelp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['app_user_id', 'api_log_id', 'master_category_id', 'no_of_items', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['api_log_id', 'request_uuid', 'master_category_id', 'no_of_items', 'location', 'lat', 'lng', 'accuracy', 'address', 'datetime', 'time_zone_offset'], 'required'],
+            [['app_user_id',  'self_else', 'master_category_id', 'no_of_items', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
+            [[ 'request_uuid', 'master_category_id', 'no_of_items', 'location', 'lat', 'lng', 'accuracy', 'address', 'datetime', 'time_zone_offset'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             //[['location'], 'string'],
             [['lat', 'lng', 'accuracy'], 'number'],
             [['datetime', 'time_zone_offset'], 'safe'],
             [['request_uuid'], 'string', 'max' => 36],
-            [['address'], 'string', 'max' => 512],
+            [['address', 'request_note'], 'string', 'max' => 512],
             [['status'], 'default', 'value' => '1'],
         ];
     }
@@ -73,7 +76,7 @@ class RequestHelp extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'app_user_id' => 'App User ID',
-            'api_log_id' => 'Api Log ID',
+            'self_else' => 'Self Else',
             'request_uuid' => 'Request Uuid',
             'master_category_id' => 'Master Category',
             'no_of_items' => 'No Of Items',
@@ -83,6 +86,7 @@ class RequestHelp extends \yii\db\ActiveRecord {
             'accuracy' => 'Accuracy',
             'payment' => 'Payment',
             'address' => 'Address',
+            'request_note' => "Request Note",
             'datetime' => 'Datetime',
             'time_zone_offset' => 'Time Zone Offset',
             'created_at' => 'Created At',
@@ -118,7 +122,7 @@ class RequestHelp extends \yii\db\ActiveRecord {
     }
 
     public function getMapping() {
-        return $this->hasMany(HelpinoutMapping::className(), ['request_help_id' => 'id'])->where(['status' => 1]);
+        return $this->hasMany(HelpinoutMapping::className(), ['request_help_id' => 'id'])->where(['status' => 1])->orderBy("created_at desc");
     }
 
     public function getActivity_detail() {
@@ -164,6 +168,10 @@ class RequestHelp extends \yii\db\ActiveRecord {
         $return['activity_count'] = $this->no_of_items;
         $return['geo_location'] = $this->lat . "," . $this->lng;
         $return['status'] = $this->status;
+        $return['self_else'] = $this->self_else;
+        $return['request_note'] = $this->request_note;
+        $return['pay'] = $this->payment;
+        //$return['distance'] = round($this->distance * 111, 2);
 
         if ($detail) {
             foreach ($this->activity_detail as $ac_d) {
@@ -188,6 +196,8 @@ class RequestHelp extends \yii\db\ActiveRecord {
                 $temp['offer_detail'] = $mapping->offerdetail->getDetail(true, true, false);
                 $temp['status'] = $mapping->status;
                 $temp['mapping_initiator'] = $mapping->mapping_initiator;
+                $temp['mapping_time'] = $mapping->datetime;
+                $temp['distance'] = $mapping->distance;
                 if (isset($mapping->rate_report_for_offerer))
                     $temp['rate_report'] = $mapping->rate_report_for_offerer->detail;
                 else

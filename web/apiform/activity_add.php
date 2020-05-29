@@ -10,7 +10,7 @@ switch (strtolower($_SERVER['SERVER_NAME'])) {
         break;
 }
 //phpinfo(); exit;
-$base_url = 'http://3.7.52.176:8080';
+//$base_url = 'http://3.7.52.176:8080';
 $url = $base_url . '/api/v1/activity/add';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -24,80 +24,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     $data_string = '{
-    "app_id": "220",
-    "imei_no": "d31f70e57896db2b",
-    "app_version": "1.0",
-    "date_time": "2020-04-13T19:50:47.910+05:30",
+    "app_id": "656",
+    "imei_no": "637809f66112c7e4",
+    "app_version": "2.1",
+    "date_time": "2020-05-13T12:55:07.134+05:30",
     "data": {
-        "activity_uuid": "6d957864-44fe-4d0c-a078-9cae7e8cc9b6",
+        "activity_uuid": "933f7ab5-83b1-4281-93a6-a801c9c69512",
         "activity_type": 1,
-        "geo_location": "28.6442644,77.3617955",
-        "geo_accuracy": "23.245",
-        "address": "181, Niti Khand I, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India",
-        "activity_category": 1,
+        "geo_location": "29.98912566102302,77.49586410820484",
+        "geo_accuracy": "371.629",
+        "address": "Unnamed Road, Bhaupur, Uttar Pradesh 247002, India",
+        "self_else": 0,
+        "activity_category": 5,
         "activity_count": 1,
         "activity_detail": [
             {
-                "detail": "Vzbs",
-                "qty": "85"
+                "detail": "Hi mohtsim from the resume of mine who have a very happy with the updated version change",
+                "qty": "123"
             }
         ],
+        "offer_note": "K to chudte laglam ar amar khala thake tahole ami amar hi add a comment on this device is resolved to be the same is true that says  to the activity of single page has me the resume of Mr and sao the list of single page website jha ke pass suite is the best of luck to everyone and other organisations and individuals who are surprisingly to you ji ko bol ker rahe hai ji been a very nice of fm idk ugh email address to send you the activity details for the r tch up",
         "offerer": "",
         "requester": "",
-        "pay": 1
+        "pay": 0
     }
 }';
     
-//    $data_string='{
-//    "app_id": "2",
-//    "imei_no": "d31f70e57896db2b",
-//    "app_version": "1.0",
-//    "date_time": "2020-04-09T13:40:32.742+05:30",
-//    "data": {
-//        "uuid": "4c53b61b-4b23-4de0-8f03-58a35601c4f4",
-//        "activity_type": 2,
-//        "geo_location": "28.6442674,77.3617401",
-//        "geo_accuracy": "23",
-//        "address": "181, Niti Khand I, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India",
-//        "activity_category": 1,
-//        "activity_count": 1,
-//        "activity_detail": [
-//            {
-//                "detail": "",
-//                "qty": ""
-//            }
-//        ],
-//        "offerer": "",
-//        "requester": "",
-//        "pay": 1,
-//        "time_zone": "Asia\/Kolkata"
-//    }
-//}';
-    
-    $data_string='{
-    "app_id": "220",
-    "imei_no": "d31f70e57896db2b",
-    "app_version": "1.0",
-    "date_time": "2020-04-13T19:50:47.910+05:30",
-    "data": {
-        "activity_uuid": "6d957864-44fe-4d0c-a078-9cae7e8cc9b6",
-        "activity_type": 1,
-        "geo_location": "28.6442644,77.3617955",
-        "geo_accuracy": "23.245",
-        "address": "181, Niti Khand I, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India",
-        "activity_category": 1,
-        "activity_count": 1,
-        "activity_detail": [
-            {
-                "detail": "Vzbs",
-                "qty": "85"
-            }
-        ],
-        "offerer": "",
-        "requester": "",
-        "pay": 1
-    }
-}';
     
 
     $ch = curl_init($url);

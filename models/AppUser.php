@@ -16,12 +16,14 @@ use yii\db\ActiveRecord;
  * @property int $mobile_no_visibility
  * @property string $first_name
  * @property string $last_name
- * @property int $user_type
+ * @property string $profile_name
+ * @property int $user_type 1=Individual, 2=Organization
  * @property string|null $org_name
  * @property int|null $master_app_user_org_type
  * @property string|null $org_division
- * @property int|null $created_at
- * @property int|null $updated_at
+ * @property string|null $ref_id
+ * @property int $created_at
+ * @property int $updated_at
  * @property int $status
  */
 class AppUser extends \yii\db\ActiveRecord {
@@ -50,7 +52,7 @@ class AppUser extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'first_name', 'last_name'], 'required'],
+            [['time_zone', 'time_zone_offset', 'country_code', 'mobile_no', 'first_name', 'last_name', 'profile_name'], 'required'],
             [['time_zone_offset'], 'safe'],
             [['mobile_no_visibility', 'user_type', 'master_app_user_org_type', 'created_at', 'updated_at', 'status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
@@ -58,9 +60,11 @@ class AppUser extends \yii\db\ActiveRecord {
             [['country_code'], 'string', 'max' => 10],
             [['mobile_no'], 'string', 'max' => 12],
             [['first_name', 'last_name'], 'string', 'max' => 60],
+            [['profile_name'], 'string', 'max' => 125],
             [['org_name', 'org_division'], 'string', 'max' => 256],
             [['country_code', 'mobile_no'], 'unique', 'targetAttribute' => ['country_code', 'mobile_no']],
             [['status'], 'default', 'value' => '1'],
+            [['ref_id'], 'string', 'max' => 60],
         ];
     }
 
@@ -77,10 +81,14 @@ class AppUser extends \yii\db\ActiveRecord {
             'mobile_no_visibility' => 'Mobile No Visibility',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
+            'profile_name' => 'Profile Name',
             'user_type' => 'User Type',
             'org_name' => 'Org Name',
-            'master_app_user_org_type' => 'App User Org Type',
-            'org_division' => 'Org Divison',
+            'master_app_user_org_type' => 'Master App User Org Type',
+            'org_division' => 'Org Division',
+            'ref_id' => 'Referance ID',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
             'status' => 'Status',
         ];
     }
@@ -99,10 +107,13 @@ class AppUser extends \yii\db\ActiveRecord {
     public function getDetail() {
         $return = array();
 
+        $return['country_code'] = $this->mobile_no_visibility == "1" ? $this->country_code : "";
+        $return['mobile_no'] = $this->mobile_no_visibility == "1" ? $this->mobile_no : "";
         $return['country_code'] = $this->country_code;
         $return['mobile_no'] = $this->mobile_no;
         $return['first_name'] = $this->first_name;
         $return['last_name'] = $this->last_name;
+        $return['profile_name'] = $this->profile_name;
         $return['mobile_no_visibility'] = $this->mobile_no_visibility;
         $return['user_type'] = $this->user_type;
         $return['org_name'] = $this->org_name;

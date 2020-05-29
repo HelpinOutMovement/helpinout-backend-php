@@ -16,8 +16,8 @@ class OfferHelpSearch extends OfferHelp {
      */
     public function rules() {
         return [
-            [['id', 'app_user_id', 'api_log_id', 'master_category_id', 'no_of_items', 'accuracy', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['offer_uuid', 'location', 'address', 'offer_condition', 'datetime', 'time_zone_offset'], 'safe'],
+            [['id', 'app_user_id',  'master_category_id', 'no_of_items', 'accuracy', 'payment', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['offer_uuid', 'location', 'address', 'offer_note', 'datetime', 'time_zone_offset'], 'safe'],
             [['lat', 'lng'], 'number'],
         ];
     }
@@ -47,7 +47,7 @@ class OfferHelpSearch extends OfferHelp {
             'sort' => [
                 'defaultOrder' => ['id' => SORT_DESC]
             ],
-            'pagination' => array('pageSize' => 50),
+            'pagination' => array('pageSize' => 100),
         ]);
 
         $this->load($params);
@@ -61,8 +61,6 @@ class OfferHelpSearch extends OfferHelp {
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'app_user_id' => $this->app_user_id,
-            'api_log_id' => $this->api_log_id,
             'master_category_id' => $this->master_category_id,
             'no_of_items' => $this->no_of_items,
             'lat' => $this->lat,
@@ -79,7 +77,7 @@ class OfferHelpSearch extends OfferHelp {
         $query->andFilterWhere(['like', 'offer_uuid', $this->offer_uuid])
                 ->andFilterWhere(['like', 'location', $this->location])
                 ->andFilterWhere(['like', 'address', $this->address])
-                ->andFilterWhere(['like', 'offer_condition', $this->offer_condition]);
+                ->andFilterWhere(['like', 'offer_note', $this->offer_note]);
 
         return $dataProvider;
     }

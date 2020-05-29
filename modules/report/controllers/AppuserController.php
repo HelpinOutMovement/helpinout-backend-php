@@ -112,32 +112,18 @@ class AppuserController extends Controller {
 
     public function actionDetail($id) {
         $model = $this->findModel($id);
-        $offer = OfferHelp::find()->where(['app_user_id' => $id])->all();
+        $offer = OfferHelp::find()->where(['app_user_id' => $id, 'status' => 1])->all();
 
-//        $query = OfferHelp::find()->where(['app_user_id' => $id, 'status' => 1])->all();
-//       $dataProvider=new ActiveDataProvider([
-//    'query' => OfferHelp::find()->where(['app_user_id' => $id, 'status' => 1])->all(),
-//    'pagination' => [
-//        'pageSize' => 20,
-//    ],
-//]);
-//       
-        $request = RequestHelp::find()->where(['app_user_id' => $id])->all();
-        $count1 = count($request);
-        $pages1 = new Pagination(['totalCount' => $count1]);
+
+        $request = RequestHelp::find()->where(['app_user_id' => $id, 'status' => 1])->all();
+        $notification= \app\models\Notification::find()->where(['app_user_id'=>$id])->all();
         return $this->render('details', [
                     'model' => $model, 'offer' => $offer, 'request' => $request,
+                     'notification'=>$notification,
 //                    'dataProvider' => $dataProvider,
         ]);
     }
 
-    /**
-     * Deletes an existing AppUser model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id) {
         $this->findModel($id)->delete();
 

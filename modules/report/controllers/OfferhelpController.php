@@ -115,8 +115,9 @@ class OfferhelpController extends Controller
     {
         $id=$offer_id;
         $model= $this->findModel($id);
-        $request= \app\models\HelpinoutMapping::find()->where(['offer_help_id'=>$offer_id])->andWhere(['=', 'status', 1])->all();
-        return  $this->render('offerdetail',['model'=>$model,'request'=>$request]);
+        $requestmapbyme= \app\models\HelpinoutMapping::find()->where(['offer_help_id'=>$offer_id,'mapping_initiator'=>2])->andWhere(['=', 'status', 1])->all();
+        $offerrecieved= \app\models\HelpinoutMapping::find()->where(['offer_help_id'=>$offer_id,'mapping_initiator'=>1])->andWhere(['=', 'status', 1])->all();
+        return  $this->render('offerdetail',['model'=>$model,'requestmapbyme'=>$requestmapbyme,'offerrecieved'=>$offerrecieved]);
     }
     /**
      * Deletes an existing OfferHelp model.
