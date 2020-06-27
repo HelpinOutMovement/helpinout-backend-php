@@ -39,3 +39,10 @@ config/prod_console.php
 # Test configuration: sensitive DB details
 config/hiotest.php
 config/hiotest_console.php
+
+*~
+*.bak
+\#*\#
+.\#*
+public_html/
+docs/build/
