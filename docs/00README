@@ -1,0 +1,13 @@
+* Documentation in ReStructured Text markup is inside source/
+
+* Python Sphinx should be installed to create PDF, HTML, etc.::
+
+    sudo aptitude install python-sphinx python-sphinx-rtd-theme
+
+* Some examples. From docs/ directory::
+
+    # Make PDF doc. (needs LaTeX installed): output will be in build/latex
+    make latexpdf
+
+    # Make HTML doc." output will be in build/html
+    make latexpdf
