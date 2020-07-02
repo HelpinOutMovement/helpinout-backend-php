@@ -227,7 +227,7 @@ Set up website
 Install PHP base packages, and some additional packages at system level::
 
    # As admin
-   sudo aptitude install php-fpm php-mysql php-xml php-mbstring php-gd php-bcmath php-curl php-xml  php-mbstring  php-gd  php-zip  php-bcmath  php-curl composer
+   sudo aptitude install php-fpm php-mysql php-xml php-mbstring php-gd php-bcmath php-curl php-zip composer
 
    sudo mkdir /mnt/data/programs
    sudo chown -R webuser.webuser /mnt/data/programs
@@ -273,6 +273,15 @@ Some additional setup work is needed:
   Check *crontab* setting with::
 
     crontab -e
+
+PHP website on Ubuntu 20.04
+---------------------------
+
+Ubuntu 20.04 poses some issues because of incompatibility of the system PHP version, 7.4.3, with one of the packages used, *robregonm/yii2-pdf*. Thus, we have to ignore requirements when installing packages with *composer*, viz., use::
+
+    composer update --ignore-platform-reqs --lock
+
+  Not sure where the PDF generation is used, and if it will cause issues, but we are ignoring that now as we ar eusing Ubuntu 20.04 only for local load-testing.  Otherwise, proceed as for Ubuntu 18.04.
 
 Testing website
 +++++++++++++++
